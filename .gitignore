@@ -1,7 +1,7 @@
 # Audio
-data/raw_audio/*
-data/transcript/*
-data/reports/*
+# data/raw_audio/*
+# data/transcripts/*
+# data/reports/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
