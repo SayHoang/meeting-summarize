@@ -1,1 +1,28 @@
 # meeting-summarize
+
+## 🛠️ Development
+
+### Project Structure
+
+```
+meeting-assistant/
+├── data/
+│   ├── raw_audio/          # record meeting (.mp3, .wav)
+│   ├── transcripts/        # transcript from Whisper
+│   └── reports/
+├── src/
+│   ├── audio_processing/
+│   │   ├── whisper_service.py
+│   │   └── diarization.py
+│   ├── llm_engine/
+│   │   ├── prompts.py            # Contain Prompt (Dev, PM, QA)
+│   │   └── generator.py          # Code call API (OpenAI/Claude/Gemini) for summarize
+│   ├── evaluation/
+│   │   ├── judge_prompts.py
+│   │   └── scorer.py
+│   └── utils/
+│       └── file_handler.py       # Read/write file JSON/Text
+├── .env
+├── app.py
+└── requirements.txt
+```
