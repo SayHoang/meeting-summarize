@@ -7,13 +7,13 @@
 ```
 meeting-assistant/
 ├── data/
-│   ├── raw_audio/          # record meeting (.mp3, .wav)
-│   ├── transcripts/        # transcript from Whisper
-│   └── reports/
+│   ├── raw_audio/                # record meeting (.mp3, .wav)
+│   ├── transcripts/              # transcript from Whisper (contain: .srt, .tsv, .txt, .vtt)
+│   └── reports/                  # summarize from transcript
 ├── src/
 │   ├── audio_processing/
-│   │   ├── whisper_service.py
-│   │   └── diarization.py
+│   │   ├── whisper.py            # Code Whisper
+│   │   └── diarization.py        # Code seperate speakers
 │   ├── llm_engine/
 │   │   ├── prompts.py            # Contain Prompt (Dev, PM, QA)
 │   │   └── generator.py          # Code call API (OpenAI/Claude/Gemini) for summarize
