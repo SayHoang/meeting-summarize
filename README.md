@@ -1,5 +1,11 @@
 # meeting-summarize
 
+## Whisper
+
+### Models
+
+
+
 ## 🛠️ Development
 
 ### Project Structure
