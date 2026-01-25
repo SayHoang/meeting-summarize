@@ -3,6 +3,7 @@ data/raw_audio/*
 data/transcripts/*
 data/reports/*
 
+*.Identifier
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]

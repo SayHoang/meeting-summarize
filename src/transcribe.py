@@ -1,8 +1,16 @@
 import whisper
 
-model = whisper.load_model("small")
-result = model.transcribe("audio.mp3", fp16=False)
+# Load model
+model = whisper.load_model("medium", device="cpu")
 
-# print(result)
+# Result
+result = model.transcribe("Recording.mp3")
 
-print(result["text"])
+segments = result["segments"]
+info = result["language"]
+info = result["language_probability"]
+
+print("Detected language '%s' with probability %f" % (info.language, info.language_probability))
+
+for segment in segments:
+    print("[%.2fs -> %.2fs] %s" % (segment["start"], segment["end"], segment["text"]))
