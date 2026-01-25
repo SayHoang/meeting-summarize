@@ -2,13 +2,21 @@
 
 ## Installation
 
+### Install Whisper
+
 ```
-pip install -U openai-whisper
-
 pip install git+https://github.com/openai/whisper.git 
+```
 
+### Install ffmpeg
+
+```
 sudo apt update && sudo apt install ffmpeg
+```
 
+### Install setuptool-rust
+
+```
 pip install setuptools-rust
 ```
 
