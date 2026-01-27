@@ -1,9 +1,9 @@
 # Audio
-data/raw_audio/*
-data/transcripts/*
-data/reports/*
+uploads/
+outputs/
+!uploads/.gitkeep
+!outputs/.gitkeep
 
-*.Identifier
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
