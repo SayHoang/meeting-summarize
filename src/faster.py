@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 from faster_whisper import WhisperModel
 
 SUPPORTED_FORMATS = [".mp3", ".mp4", ".wav", ".m4a", ".mov", ".mkv", ".webm"]
@@ -31,6 +32,12 @@ def get_file_info(file_path: str) -> dict:
         "is_valid": is_valid
     }
 
+def generate_output_filename(input_file: str, output_dir: str) -> str:
+    """Generate output filename based on input file name."""
+    file_name = os.path.splitext(os.path.basename(input_file))[0]
+    timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+    output_file = f"{file_name}_{timestamp}.txt"
+    return os.path.join(output_dir, output_file)
 
 def transcribe_audio(input_file: str, output_file: str, beam_size: int = 5) -> None:
     """Transcribe audio file to text."""
@@ -58,6 +65,6 @@ def transcribe_audio(input_file: str, output_file: str, beam_size: int = 5) -> N
 # File path
 input_file = "../uploads/Recording.mp3"
 output_dir = "../outputs"
-output_file = os.path.join(output_dir, "transcript.txt")
+output_file = generate_output_filename(input_file, output_dir)
 
 transcribe_audio(input_file, output_file)
