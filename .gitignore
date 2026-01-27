@@ -1,6 +1,6 @@
 # Audio
-uploads/
-outputs/
+uploads/*
+outputs/*
 !uploads/.gitkeep
 !outputs/.gitkeep
 
