@@ -63,7 +63,7 @@ def transcribe_audio(input_file: str, output_file: str, beam_size: int = 5) -> N
 
 
 # File path
-input_file = "../uploads/Recording.mp3"
+input_file = "afjiv.wav"
 output_dir = "../outputs"
 output_file = generate_output_filename(input_file, output_dir)
 

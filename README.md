@@ -20,6 +20,13 @@ sudo apt update && sudo apt install ffmpeg
 pip install setuptools-rust
 ```
 
+### Install pyannote.audio
+
+```
+pip install pyannote.audio
+```
+
+
 ## Whisper
 
 ### Models
