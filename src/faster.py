@@ -1,11 +1,18 @@
 import os
 from datetime import datetime
 from faster_whisper import WhisperModel
+from utils import get_config
+
 
 SUPPORTED_FORMATS = [".mp3", ".mp4", ".wav", ".m4a", ".mov", ".mkv", ".webm"]
 
-model_size = "large-v2"
-model = WhisperModel(model_size, device="cpu", compute_type="int8")
+model_whisper = get_config("model_whisper")
+# print(model_whisper)
+
+device = get_config("device")
+# print(device)
+
+model = WhisperModel(model_whisper, device=device, compute_type="int8")
 
 
 def validate_audio_file(file_path: str) -> bool:
@@ -63,8 +70,8 @@ def transcribe_audio(input_file: str, output_file: str, beam_size: int = 5) -> N
 
 
 # File path
-input_file = "afjiv.wav"
-output_dir = "../outputs"
+input_file = get_config("input_file")
+output_dir = get_config("output_dir")
 output_file = generate_output_filename(input_file, output_dir)
 
 transcribe_audio(input_file, output_file)

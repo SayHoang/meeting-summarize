@@ -1,20 +1,36 @@
 from google import genai
-from dotenv import load_dotenv
-import os
 
-load_dotenv()
+from utils import load_prompt, get_config, load_key
 
-client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+def generate_summary(transcript: str, prompt_summary: str, model_summary: str) -> str:
+    client = genai.Client(
+        api_key=load_key("GEMINI_API_KEY")
+    )
 
-file_path = "../outputs/ES2004c_20260127160026.txt"
+    model = model_summary
+    contents = [
+        {
+            "role": "user",
+            "parts": [
+                {
+                    "text": f"{prompt_summary}: \n \n{transcript}"
+                }
+            ]
+        }
+    ]
 
-with open(file_path, "r") as f:
-    transcript = f.read()
+    for chunk in client.models.generate_content_stream(
+        model=model,
+        contents=contents
+    ):
+        print(chunk.text, end="", flush=True)
 
-# print(transcript)
-response = client.models.generate_content(
-    model="gemini-3-flash-preview",
-    contents=f"Summarize this transcript: \n \n{transcript}"
-)
+if __name__ == "__main__":
+    file_path = "../outputs/ES2004c_20260127160026.txt"
+    with open(file_path, "r") as f:
+        transcript = f.read()
 
-print(response.text)
+    prompt_summary = load_prompt("prompts/summary_prompt.txt")
+    model_summary = get_config("model_summary")
+
+    generate_summary(transcript, prompt_summary, model_summary)

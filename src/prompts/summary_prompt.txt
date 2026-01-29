@@ -1,0 +1,5 @@
+You are an expert secretary. Please summarize the following transcript.
+Focus on:
+1. Key decisions made
+2. Action items and owners
+3. General mood of the meeting
