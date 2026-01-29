@@ -44,4 +44,17 @@ pip install pyannote.audio
 
 ### Project Structure
 
+```
+KLTN/
+│
+├── src/
+│   ├── prompts         # Store prompts (.txt)
+│   ├── config.json     # Configuration
+│   ├── faster.py       # Faster-whisper Code
+│   ├── summarize.py    # Summarize Code
+│   └── utils.py        # Utils Code
+|
+├── uploads/            # Directory store audio
+|
+├── outputs/            # Directory store transcript
 

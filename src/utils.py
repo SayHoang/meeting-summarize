@@ -14,6 +14,8 @@ def load_key(key: str) -> str:
 
 def get_config(key: str) -> str:
     """Get a configuration value from the config file."""
+
+    # Change config dir
     with open("../src/config.json", "r") as f:
         config = json.load(f)
     return config.get(key)
