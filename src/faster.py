@@ -43,7 +43,10 @@ def generate_output_filename(input_file: str, output_dir: str) -> str:
     """Generate output filename based on input file name."""
     file_name = os.path.splitext(os.path.basename(input_file))[0]
     timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
-    output_file = f"{file_name}_{timestamp}.txt"
+
+    # output_file = f"{file_name}_{timestamp}.txt"
+    output_file = f"transcript_{timestamp}.txt"
+    
     return os.path.join(output_dir, output_file)
 
 def transcribe_audio(input_file: str, output_file: str, beam_size: int = 5) -> None:
