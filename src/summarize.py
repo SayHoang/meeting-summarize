@@ -14,7 +14,10 @@ def generate_summary(transcript: str, output_file: str) -> str:
         api_key=load_key("GEMINI_API_KEY")
     )
 
+    # Get model
     model = get_config("model_summary")
+    
+    # Get prompt
     prompt_summary = load_prompt("prompts/summary_prompt.txt")
 
     contents = [
