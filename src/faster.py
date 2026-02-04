@@ -1,21 +1,21 @@
 import os
 from datetime import datetime
+from functools import lru_cache
+from typing import Callable, Optional
+
 from faster_whisper import WhisperModel
-from utils import get_config, load_key
-from pyannote.audio import Pipeline
-from pyannote.core import Annotation
-# import torch
+# from utils import get_config, load_key
+# from pyannote.audio import Pipeline
+# from pyannote.core import Annotation
+# # import torch
+from utils import get_config
 
 
 SUPPORTED_FORMATS = [".mp3", ".mp4", ".wav", ".m4a", ".mov", ".mkv", ".webm"]
 
-model_whisper = get_config("model_whisper")
-# print(model_whisper)
-
-device = get_config("device")
-# print(device)
-
-model = WhisperModel(model_whisper, device=device, compute_type="int8")
+@lru_cache(maxsize=2)
+def _load_model(model_name: str, device: str) -> WhisperModel:
+    return WhisperModel(model_name, device=device, compute_type="int8")
 
 
 def validate_audio_file(file_path: str) -> bool:
@@ -52,28 +52,53 @@ def generate_output_filename(input_file: str, output_dir: str) -> str:
     
     return os.path.join(output_dir, output_file)
 
-# Whisper only
-def transcribe_audio(input_file: str, output_file: str, beam_size: int = 5) -> None:
-    """Transcribe audio file to text."""
+def transcribe_audio(params: dict, on_progress: Optional[Callable[[dict], None]] = None) -> str:
+    """Transcribe audio file to text with optional progress updates."""
+    input_file = params.get("input_file")
+    output_file = params.get("output_file")
+    beam_size = params.get("beam_size", 5)
+    model_name = params.get("model_name") or get_config("model_whisper")
+    device = params.get("device") or get_config("device")
+
+    if not input_file or not output_file:
+        raise ValueError("input_file and output_file are required.")
+
     if not validate_audio_file(input_file):
         raise ValueError(
             f"Invalid audio file: {input_file}. "
             f"File must exist and have one of these extensions: {', '.join(SUPPORTED_FORMATS)}"
         )
-    
+
+    model = _load_model(model_name, device)
     segments, info = model.transcribe(input_file, beam_size=beam_size)
-    
-    print("Detected language '%s' with probability %f" % (info.language, info.language_probability))
-    
+    total_duration = getattr(info, "duration", None)
+
     with open(output_file, "w") as f:
-        for segment in segments:
+        for segment_index, segment in enumerate(segments, start=1):
             line = "[%.2fs -> %.2fs] %s" % (segment.start, segment.end, segment.text)
-            
-            print(line)
-            
             f.write(line + "\n")
-    
-    print(f"Transcript saved to {output_file}")
+
+            if on_progress and total_duration:
+                percent = int(min(100, (segment.end / total_duration) * 100))
+                on_progress(
+                    {
+                        "percent": percent,
+                        "message": f"Processed segment {segment_index}",
+                        "segment_end": segment.end,
+                    }
+                )
+
+    if on_progress and not total_duration:
+        on_progress({"percent": 100, "message": "Transcript completed"})
+
+    return output_file
+
+
+def transcribe_to_file_with_progress(
+    params: dict, on_progress: Optional[Callable[[dict], None]] = None
+) -> str:
+    """Wrapper to keep the output format unchanged."""
+    return transcribe_audio(params, on_progress)
 
 # def transcribe_and_diarize(input_file: str, output_file: str, beam_size: int = 5) -> None:
 #     """Transcribe audio and add speaker labels using Pyannote on CPU."""
@@ -145,10 +170,19 @@ def transcribe_audio(input_file: str, output_file: str, beam_size: int = 5) -> N
         
 #     print(f"Transcript saved to {output_file}")
 
-# File path
-input_file = get_config("input_file")
-output_dir = get_config("output_dir")
-output_file = generate_output_filename(input_file, output_dir)
+def main() -> int:
+    input_file = get_config("input_file")
+    output_dir = get_config("output_dir")
+    output_file = generate_output_filename(input_file, output_dir)
 
-transcribe_audio(input_file, output_file)
-# transcribe_and_diarize(input_file, output_file)
+    transcribe_audio(
+        {
+            "input_file": input_file,
+            "output_file": output_file,
+        }
+    )
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
