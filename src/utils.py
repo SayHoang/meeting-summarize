@@ -22,3 +22,4 @@ def get_config(key: str) -> str:
 
 # # Test
 # print(get_config("model_whisper"))
+# print(load_key("HF_TOKEN"))
