@@ -42,6 +42,18 @@ pip install pyannote.audio
 
 ## 🛠️ Development
 
+### Run requirement
+
+```
+pip install -r requirements.txt
+```
+
+### Streamlit Meeting UI
+
+```
+streamlit run frontend/streamlit_meeting_app/app.py
+```
+
 ### Project Structure
 
 ```

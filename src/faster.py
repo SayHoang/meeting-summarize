@@ -78,7 +78,7 @@ def transcribe_audio(params: dict, on_progress: Optional[Callable[[dict], None]]
             line = "[%.2fs -> %.2fs] %s" % (segment.start, segment.end, segment.text)
             f.write(line + "\n")
 
-            if on_progress and total_duration:
+            if on_progress and total_duration and total_duration > 0:
                 percent = int(min(100, (segment.end / total_duration) * 100))
                 on_progress(
                     {
