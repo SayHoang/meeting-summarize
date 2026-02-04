@@ -3,15 +3,15 @@ from pathlib import Path
 
 import streamlit as st
 
-PROJECT_ROOT = Path(__file__).resolve().parents[3]
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
 SRC_DIR = PROJECT_ROOT / "src"
 
 if str(PROJECT_ROOT) not in sys.path:
-    sys.path.append(str(PROJECT_ROOT))
+    sys.path.insert(0, str(PROJECT_ROOT))
 if str(SRC_DIR) not in sys.path:
-    sys.path.append(str(SRC_DIR))
+    sys.path.insert(0, str(SRC_DIR))
 
-from backend.meeting_pipeline import storage
+from backend import storage
 from utils import load_prompt
 
 

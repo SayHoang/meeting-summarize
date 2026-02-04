@@ -1,0 +1,15 @@
+{
+  "job_id": "job_20260204200058_3af353",
+  "status": "summarized",
+  "created_at": "2026-02-04T13:00:58.418460Z",
+  "updated_at": "2026-02-04T13:05:52.792950Z",
+  "original_filename": "Recording (3).mp3",
+  "input_path": "/home/sayhoang/kltn/kltn/meeting_storage/job_20260204200058_3af353/input.mp3",
+  "transcript_path": "/home/sayhoang/kltn/kltn/meeting_storage/job_20260204200058_3af353/transcript.txt",
+  "summary_path": "/home/sayhoang/kltn/kltn/meeting_storage/job_20260204200058_3af353/summary.txt",
+  "transcript_ready": true,
+  "summary_ready": true,
+  "progress_transcribe": 100,
+  "progress_summary": 100,
+  "error_message": null
+}

@@ -51,7 +51,7 @@ pip install -r requirements.txt
 ### Streamlit Meeting UI
 
 ```
-streamlit run frontend/streamlit_meeting_app/app.py
+streamlit run frontend/app.py
 ```
 
 ### Project Structure
