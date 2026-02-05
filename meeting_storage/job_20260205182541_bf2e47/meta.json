@@ -1,0 +1,15 @@
+{
+  "job_id": "job_20260205182541_bf2e47",
+  "status": "uploaded",
+  "created_at": "2026-02-05T11:25:41.465469Z",
+  "updated_at": "2026-02-05T11:34:20.586048Z",
+  "original_filename": "2026-01-13 11-22-11.mkv",
+  "input_path": "/home/sayhoang/kltn/kltn/meeting_storage/job_20260205182541_bf2e47/input.mkv",
+  "transcript_path": "/home/sayhoang/kltn/kltn/meeting_storage/job_20260205182541_bf2e47/transcript.txt",
+  "summary_path": "/home/sayhoang/kltn/kltn/meeting_storage/job_20260205182541_bf2e47/summary.txt",
+  "transcript_ready": true,
+  "summary_ready": true,
+  "progress_transcribe": 0,
+  "progress_summary": 0,
+  "error_message": null
+}

@@ -1,0 +1,14 @@
+{
+  "model_whisper": "large-v2",
+  "input_file": "afjiv.wav",
+  "output_dir": "../outputs",
+
+  "device": "cpu",
+
+  "model_summary": "gemini-3-flash-preview",
+  "temperature_summary": 0.3,
+  "top_p_summary": 0.95,
+  
+  "meeting_storage_dir": "kltn/meeting_storage",
+  "live_transcribe_max_lines": 10
+}

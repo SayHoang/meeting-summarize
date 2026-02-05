@@ -1,4 +1,5 @@
 import sys
+import shutil
 from pathlib import Path
 
 import streamlit as st
@@ -14,6 +15,7 @@ if str(CORE_DIR) not in sys.path:
 from backend import paths, storage, summarize_service, transcribe_service
 from backend.types import SummarizeParams, TranscribeParams
 from faster import SUPPORTED_FORMATS
+from utils import get_config
 
 
 def _init_state() -> None:
@@ -23,6 +25,8 @@ def _init_state() -> None:
     st.session_state.setdefault("summary_edit", "")
     st.session_state.setdefault("transcript_path", "")
     st.session_state.setdefault("summary_path", "")
+    st.session_state.setdefault("is_transcribing", False)
+    st.session_state.setdefault("is_summarizing", False)
 
 
 def _reset_outputs() -> None:
@@ -33,7 +37,27 @@ def _reset_outputs() -> None:
     st.session_state["summary_path"] = ""
 
 
+def _get_live_transcribe_max_lines() -> int:
+    max_lines = get_config("live_transcribe_max_lines")
+    if isinstance(max_lines, int) and max_lines > 0:
+        return max_lines
+    return 10
+
+
+def _delete_job_dir(job_id: str | None) -> None:
+    if not job_id:
+        return
+    job_dir = paths.get_job_dir(job_id)
+    if job_dir.exists():
+        shutil.rmtree(job_dir, ignore_errors=True)
+
+
 def _transcribe_flow(audio_bytes: bytes, original_filename: str) -> None:
+    if st.session_state.get("is_transcribing"):
+        _delete_job_dir(st.session_state.get("job_id"))
+        _reset_outputs()
+
+    st.session_state["is_transcribing"] = True
     job_meta = storage.create_job({"original_filename": original_filename})
     st.session_state["job_id"] = job_meta.job_id
     _reset_outputs()
@@ -50,59 +74,118 @@ def _transcribe_flow(audio_bytes: bytes, original_filename: str) -> None:
     output_path = job_dir / "transcript.txt"
 
     segments_box = st.empty()
+    status_box = st.empty()
+    status_box.info("Transcribing, please wait...")
     segment_lines: list[str] = []
+    has_first_segment = False
+    max_lines = _get_live_transcribe_max_lines()
+    box_height = max_lines * 20
 
     def _on_segment(event: dict) -> None:
+        nonlocal has_first_segment
         segment_line = event.get("segment_line")
         if segment_line:
+            if not has_first_segment:
+                status_box.empty()
+                has_first_segment = True
             segment_lines.append(segment_line)
-            segments_box.code("\n".join(segment_lines))
+            segments_box.text_area(
+                f"Live transcript (showing {max_lines} lines; scroll to see all)",
+                value="\n".join(segment_lines),
+                height=box_height,
+                key=f"live_transcript_{job_meta.job_id}",
+            )
 
-    transcribe_service.run_transcribe(
-        TranscribeParams(
-            job_id=job_meta.job_id,
-            input_path=str(job_dir / f"input{Path(original_filename).suffix.lower()}"),
-            output_path=str(output_path),
-        ),
-        on_segment=_on_segment,
-    )
+    try:
+        transcribe_service.run_transcribe(
+            TranscribeParams(
+                job_id=job_meta.job_id,
+                input_path=str(
+                    job_dir / f"input{Path(original_filename).suffix.lower()}"
+                ),
+                output_path=str(output_path),
+            ),
+            on_segment=_on_segment,
+        )
 
-    transcript_text = output_path.read_text()
-    st.session_state["transcript_text"] = transcript_text
-    st.session_state["transcript_path"] = str(output_path)
+        transcript_text = output_path.read_text()
+        st.session_state["transcript_text"] = transcript_text
+        st.session_state["transcript_path"] = str(output_path)
+    finally:
+        status_box.empty()
+        st.session_state["is_transcribing"] = False
 
 
-def _summarize_flow() -> None:
-    job_id = st.session_state.get("job_id")
-    transcript_path = st.session_state.get("transcript_path")
-
-    if not job_id or not transcript_path:
-        st.warning("Please transcribe first.")
-        return
-
+def _summarize_flow(job_id: str, transcript_path: str) -> None:
     job_dir = paths.get_job_dir(job_id)
     output_path = job_dir / "summary.txt"
 
+    status_box = st.empty()
+    status_box.info("Summarizing, please wait...")
     preview = st.empty()
     summary_text = ""
+    has_first_chunk = False
 
     def _on_chunk(chunk: str) -> None:
-        nonlocal summary_text
+        nonlocal summary_text, has_first_chunk
+        if not has_first_chunk:
+            status_box.empty()
+            has_first_chunk = True
         summary_text += chunk
         preview.markdown(summary_text)
 
-    summarize_service.run_summary(
-        SummarizeParams(
-            job_id=job_id,
-            transcript_path=transcript_path,
-            output_path=str(output_path),
-        ),
-        on_chunk=_on_chunk,
-    )
+    try:
+        summarize_service.run_summary(
+            SummarizeParams(
+                job_id=job_id,
+                transcript_path=transcript_path,
+                output_path=str(output_path),
+            ),
+            on_chunk=_on_chunk,
+        )
 
-    st.session_state["summary_text"] = output_path.read_text()
-    st.session_state["summary_edit"] = st.session_state["summary_text"]
-    st.session_state["summary_path"] = str(output_path)
+        st.session_state["summary_text"] = output_path.read_text()
+        st.session_state["summary_edit"] = st.session_state["summary_text"]
+        st.session_state["summary_path"] = str(output_path)
+    finally:
+        status_box.empty()
+
+
+def _summarize_from_input(
+    transcript_text: str | None,
+    transcript_file: bytes | None,
+    transcript_filename: str | None,
+) -> None:
+    if st.session_state.get("is_summarizing"):
+        _reset_outputs()
+
+    st.session_state["is_summarizing"] = True
+    try:
+        if transcript_file:
+            transcript_text = transcript_file.decode("utf-8", errors="replace")
+
+        if transcript_text:
+            job_meta = storage.create_job(
+                {"original_filename": transcript_filename or "transcript.txt"}
+            )
+            st.session_state["job_id"] = job_meta.job_id
+            transcript_path = storage.save_transcript_text(
+                {"job_id": job_meta.job_id, "transcript_text": transcript_text}
+            )
+            st.session_state["transcript_text"] = transcript_text
+            st.session_state["transcript_path"] = str(transcript_path)
+            _summarize_flow(job_meta.job_id, str(transcript_path))
+            return
+
+        job_id = st.session_state.get("job_id")
+        transcript_path = st.session_state.get("transcript_path")
+        if not job_id or not transcript_path:
+            st.warning("Please provide a transcript to summarize.")
+            return
+
+        _summarize_flow(job_id, transcript_path)
+    finally:
+        st.session_state["is_summarizing"] = False
 
 
 def main() -> None:
@@ -112,39 +195,66 @@ def main() -> None:
     st.title("Meeting Transcribe & Summarize")
     st.caption("Upload audio, transcribe with progress, then summarize and export.")
 
-    allowed_types = [ext.lstrip(".") for ext in SUPPORTED_FORMATS]
-    uploaded_file = st.file_uploader(
-        "Upload a meeting audio file", type=allowed_types, accept_multiple_files=False
-    )
+    mode = st.radio("Mode", ["Transcribe", "Summarize"], horizontal=True)
 
-    if uploaded_file:
-        st.audio(uploaded_file)
-        st.write(
-            {
-                "filename": uploaded_file.name,
-                "size_mb": round(len(uploaded_file.getvalue()) / (1024 * 1024), 2),
-            }
+    if mode == "Transcribe":
+        allowed_types = [ext.lstrip(".") for ext in SUPPORTED_FORMATS]
+        uploaded_file = st.file_uploader(
+            "Upload a meeting audio file",
+            type=allowed_types,
+            accept_multiple_files=False,
         )
 
-        if st.button("Transcribe", type="primary"):
-            _transcribe_flow(uploaded_file.getvalue(), uploaded_file.name)
-
-    if st.session_state["transcript_text"]:
-        with st.expander("Transcript", expanded=True):
-            st.text_area(
-                "Transcript text",
-                value=st.session_state["transcript_text"],
-                height=220,
+        if uploaded_file:
+            st.audio(uploaded_file)
+            st.write(
+                {
+                    "filename": uploaded_file.name,
+                    "size_mb": round(len(uploaded_file.getvalue()) / (1024 * 1024), 2),
+                }
             )
 
-        st.download_button(
-            "Export Transcribe",
-            data=st.session_state["transcript_text"],
-            file_name=Path(st.session_state["transcript_path"]).name,
+            if st.button("Transcribe", type="primary"):
+                _transcribe_flow(uploaded_file.getvalue(), uploaded_file.name)
+
+        if st.session_state["transcript_text"]:
+            with st.expander("Transcript", expanded=True):
+                st.text_area(
+                    "Transcript text",
+                    value=st.session_state["transcript_text"],
+                    height=220,
+                )
+
+            st.download_button(
+                "Export Transcribe",
+                data=st.session_state["transcript_text"],
+                file_name=Path(st.session_state["transcript_path"]).name,
+            )
+
+    if mode == "Summarize":
+        st.subheader("Summarize a transcript")
+        transcript_upload = st.file_uploader(
+            "Upload transcript (.txt)", type=["txt"], accept_multiple_files=False
+        )
+        default_transcript = st.session_state.get("transcript_text") or ""
+        transcript_text = st.text_area(
+            "Paste transcript text",
+            value=default_transcript,
+            height=200,
         )
 
         if st.button("Summarize", type="primary"):
-            _summarize_flow()
+            transcript_file_bytes = (
+                transcript_upload.getvalue() if transcript_upload else None
+            )
+            transcript_filename = (
+                transcript_upload.name if transcript_upload else None
+            )
+            _summarize_from_input(
+                transcript_text.strip() or None,
+                transcript_file_bytes,
+                transcript_filename,
+            )
 
     if st.session_state["summary_text"]:
         st.subheader("Summary")

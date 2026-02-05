@@ -72,20 +72,6 @@ def generate_summary_to_file(
 
     return output_file
 
-## Test code
-# main()
-#     transcript_path = "../outputs/ES2004c_20260127160026.txt"
-#     output_dir = get_config("output_dir")
-#     output_file = generate_output_filename(transcript_path, output_dir)
-
-#     generate_summary_to_file(
-#         {
-#             "transcript_path": transcript_path,
-#             "output_file": output_file,
-#         }
-#     )
-#     return 0
-
 
 def main() -> int:
     return 0

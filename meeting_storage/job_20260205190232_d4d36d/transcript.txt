@@ -1,0 +1,311 @@
+[0.00s -> 7.00s]  If you leave them on the whole time you get to look like a noodle the whole time.
+[15.00s -> 17.00s]  Is that someone's foot?
+[23.00s -> 24.00s]  Thank you.
+[24.00s -> 26.00s]  It's meant to be, apparently.
+[27.00s -> 29.00s]  Okay, you're all set.
+[29.00s -> 30.00s]  Yep.
+[34.00s -> 35.00s]  Okay.
+[36.00s -> 37.00s]  Minutes.
+[37.00s -> 40.00s]  We decided to use a kinetic charger.
+[41.00s -> 49.00s]  Standard chip, because it can come in various different sizes, it wasn't going to be a problem factor.
+[50.00s -> 52.00s]  We wanted a standby function.
+[52.00s -> 56.00s]  The case material is going to be soft, rubbery, changeable.
+[57.00s -> 61.00s]  Buttons with a combination of LCD and rubber according to the design.
+[61.00s -> 67.00s]  Bright, funky designs inspired by fruit, keeping with the hip kind of feel.
+[69.00s -> 76.00s]  And to try and incorporate voice recognition software into our design until we can find out more about the cost of things like that.
+[77.00s -> 81.00s]  And the rubber buttons that we'll use will be anti-RSI.
+[82.00s -> 83.00s]  Okay.
+[87.00s -> 90.00s]  Prototype presentation.
+[90.00s -> 92.00s]  Is that for us?
+[92.00s -> 93.00s]  I think that would be you.
+[93.00s -> 94.00s]  Okay.
+[94.00s -> 99.00s]  Me and William worked on a prototype and I think William is going to make a presentation on that.
+[99.00s -> 100.00s]  Yeah, shall I show?
+[100.00s -> 101.00s]  Yeah.
+[101.00s -> 102.00s]  I'll show.
+[103.00s -> 104.00s]  I can hold it.
+[104.00s -> 105.00s]  Do you want to hold it?
+[105.00s -> 106.00s]  Yeah.
+[106.00s -> 108.00s]  I'll show you the presentation.
+[108.00s -> 109.00s]  Can I just nick you?
+[109.00s -> 110.00s]  Yes, yes, you can.
+[110.00s -> 111.00s]  Wait a second, I'll get it out.
+[111.00s -> 112.00s]  Great.
+[114.00s -> 115.00s]  Whoa.
+[115.00s -> 117.00s]  It looks crazy over here.
+[117.00s -> 118.00s]  Crazy, yeah.
+[120.00s -> 121.00s]  Thank you.
+[138.00s -> 143.00s]  Okay, so this is our look and feel presentation, our final presentation.
+[144.00s -> 149.00s]  And we'll first look at the exterior of what we've come up with over there.
+[152.00s -> 165.00s]  It's going to have a plastic body with a sort of standard color, either we're thinking something fairly neutral like a white or a light blue or something.
+[166.00s -> 174.00s]  This is underneath the rubberized outer casing, which there'd be sort of a wide choice.
+[174.00s -> 178.00s]  They would be attached, but we couldn't come up with that.
+[180.00s -> 186.00s]  The wide choice of colors and sort of patterns, so you've got a lot of customization with it.
+[189.00s -> 192.00s]  It's obviously in a sort of clamshell design.
+[195.00s -> 204.00s]  The top LCD screen that you can see there would be sort of, how do you say it?
+[204.00s -> 206.00s]  The black and white touch screen?
+[206.00s -> 214.00s]  Yeah, yeah, it would be sort of inset into the top and the buttons at the bottom, so it will fully close flat.
+[214.00s -> 216.00s]  Oh, right, okay, yeah.
+[217.00s -> 227.00s]  And working on the inside, we've already decided on the kinetic batteries, which actually thinking about it now,
+[227.00s -> 233.00s]  you could also probably attach to the flipping open and shut as well, so that you could probably get a bit…
+[233.00s -> 236.00s]  So put it in the top section rather than the bottom section, because it's the top.
+[236.00s -> 237.00s]  Yeah.
+[238.00s -> 239.00s]  Okay.
+[240.00s -> 247.00s]  We decided that the voice recognition system, it did actually say on the email that they were sort of coming in
+[247.00s -> 252.00s]  and they were fairly easy to get a hold of, so we presumed that they'd also be quite cheap.
+[252.00s -> 256.00s]  So you'd have something like, you'd shout out, where is the remote?
+[256.00s -> 261.00s]  And it'll shout back, I'm here or something.
+[264.00s -> 265.00s]  Or something.
+[265.00s -> 266.00s]  Yeah.
+[267.00s -> 271.00s]  It won't shout out, I'm here or something, it'll just shout out, I'm here.
+[271.00s -> 272.00s]  Okay.
+[272.00s -> 274.00s]  Or something to similar effect.
+[274.00s -> 275.00s]  Oh, that would be too good.
+[275.00s -> 281.00s]  Yeah, if it was getting that, well, that could be something for next time, maybe.
+[281.00s -> 284.00s]  You can have a remote that tells you exactly where it is.
+[285.00s -> 291.00s]  The standard, there'd be a standard transmission with the TV using all the standard chips that we've talked about.
+[292.00s -> 299.00s]  It would have, obviously, because it's split over two different layers, it would need two separate PCBs
+[299.00s -> 303.00s]  that would be joined at the hinge through some sort of cabling.
+[304.00s -> 316.00s]  And because, obviously, all TVs use this same infrared medium, we'd just be using the same thing to transmit the data.
+[317.00s -> 327.00s]  And the infrared sender would be on one of the bottom layer, just at the front of the...
+[328.00s -> 330.00s]  I don't think we actually put it on.
+[331.00s -> 332.00s]  Yeah, yeah, somewhere like that.
+[332.00s -> 334.00s]  Infrared could be here also.
+[334.00s -> 337.00s]  Yeah, on the front, on the front side of that, yeah.
+[337.00s -> 338.00s]  Oh, right, yeah, okay.
+[338.00s -> 340.00s]  So even if it's open here...
+[340.00s -> 343.00s]  So when you've actually got it open, it would be facing the TV.
+[344.00s -> 347.00s]  And then finally, onto the interface.
+[348.00s -> 356.00s]  The top screen, as we've said, would be an inset black and white LCD touchscreen,
+[356.00s -> 366.00s]  which would have all of the available functions for the remote on it.
+[366.00s -> 370.00s]  Whereas the bottom screen would just contain the standard buttons,
+[370.00s -> 379.00s]  like the volume up and down, channel up and down, power on and off, and things to that effect.
+[380.00s -> 393.00s]  And now we also decided on the inside, we could possibly either have some kind of sort of bezelled logo on it
+[393.00s -> 397.00s]  or something inset, or maybe an engraving of the logo on the top.
+[398.00s -> 400.00s]  But not interfering with the outside?
+[400.00s -> 408.00s]  No, not actually, no, not interfering with the whole look of the product when it's out on the thing.
+[408.00s -> 412.00s]  And finally, that's how we put the fashion back into electronics.
+[413.00s -> 414.00s]  Thank you very much.
+[414.00s -> 416.00s]  That's the company logo.
+[416.00s -> 418.00s]  Wrapping it all up, okay.
+[419.00s -> 421.00s]  I've now got evaluation criteria.
+[422.00s -> 423.00s]  Certainly.
+[424.00s -> 425.00s]  So this is the one.
+[425.00s -> 426.00s]  The one.
+[449.00s -> 450.00s]  I think this is a good shape.
+[452.00s -> 454.00s]  It's quite similar to what it was before though.
+[454.00s -> 455.00s]  Okay.
+[456.00s -> 463.00s]  This stage of the evaluation is really for us as a team to evaluate if we have now got a product specification
+[463.00s -> 468.00s]  and prototype design that meets the criteria that we got from our market research.
+[469.00s -> 471.00s]  So this is the first stage of the evaluation.
+[472.00s -> 475.00s]  Now the collection of the criteria, as we saw in our previous meeting,
+[475.00s -> 481.00s]  was based on the user requirements and trends found in the marketing reports and marketing strategy of our company.
+[481.00s -> 483.00s]  So it's what we've discussed in the last meeting.
+[483.00s -> 486.00s]  Are we actually meeting those trends and requirements?
+[488.00s -> 491.00s]  Now the findings that we came up with, just to recap, are here.
+[491.00s -> 497.00s]  The criteria that we want in this remote control are a fancy look and feel, technological innovation.
+[498.00s -> 499.00s]  It should be easy to use.
+[500.00s -> 503.00s]  It should incorporate current fashion trends and those, the two main ones,
+[503.00s -> 507.00s]  they were the spongy texture and the fruit and vegetable strong design colors.
+[508.00s -> 512.00s]  The design should minimize RSI and be easy to locate
+[512.00s -> 517.00s]  and we were still slightly ambivalent as to whether to use voice recognition there,
+[517.00s -> 519.00s]  though that did seem to be the favored strategy,
+[519.00s -> 523.00s]  but there was also on the sideline the thought of maybe having a beeper function.
+[524.00s -> 525.00s]  Okay.
+[525.00s -> 528.00s]  So we can come back to that slide if you don't have a note of those.
+[528.00s -> 533.00s]  I'll just show you how we're going to evaluate our own feedback to this, to what we have so far.
+[534.00s -> 538.00s]  We're going to use a seven point scale where one is true and seven is false.
+[539.00s -> 541.00s]  We'll look at each of those criteria that I've just mentioned.
+[541.00s -> 548.00s]  I'll call that slide back up and I will just do a preliminary rating of all those criteria on the whiteboard here.
+[549.00s -> 551.00s]  Does that seem clear? Any questions there?
+[552.00s -> 553.00s]  So we're going to look at these.
+[553.00s -> 555.00s]  Is it everybody's going to evaluate or just the model?
+[555.00s -> 556.00s]  Yes.
+[556.00s -> 561.00s]  We're going to come to, we'll discuss each one and we'll come to a consensus rating between one and seven.
+[562.00s -> 563.00s]  Okay.
+[563.00s -> 565.00s]  One is true, seven is false.
+[566.00s -> 567.00s]  Right.
+[569.00s -> 571.00s]  So I won't write all of that out again.
+[571.00s -> 577.00s]  It will just be criteria one, two, three, four, five, six or A, B, C, D, E, F to confuse it with the number rating.
+[577.00s -> 579.00s]  B, C, D, E, F.
+[580.00s -> 583.00s]  This is where I realize how tiny I actually am.
+[584.00s -> 585.00s]  Just write, Smiley.
+[586.00s -> 587.00s]  Criteria.
+[591.00s -> 592.00s]  And rating.
+[595.00s -> 600.00s]  Actually, it might be an idea if we each did give our own individual rating and we could take an average at the end.
+[600.00s -> 601.00s]  How about that?
+[602.00s -> 608.00s]  So I'll just separate the ratings by obliques and if we go one, two, three, four, we know who's who.
+[616.00s -> 617.00s]  Okay.
+[617.00s -> 621.00s]  Criteria A, the fancy look and feel.
+[621.00s -> 626.00s]  How do we feel about this prototype model relating to, it is a fancy look and feel.
+[626.00s -> 628.00s]  One is true, seven is false.
+[628.00s -> 631.00s]  My own rating for that would be a two.
+[632.00s -> 634.00s]  One is true and seven is false.
+[638.00s -> 645.00s]  Yeah, I'd probably put it two, yeah, two or three.
+[645.00s -> 646.00s]  No, three.
+[646.00s -> 647.00s]  Three.
+[647.00s -> 648.00s]  Okay.
+[649.00s -> 650.00s]  I'd say two.
+[653.00s -> 654.00s]  I would say four.
+[654.00s -> 655.00s]  A four, okay.
+[656.00s -> 661.00s]  Adding those up, we've got six and a five, 11 divided by four is what?
+[662.00s -> 663.00s]  Two and three quarters, is that right?
+[663.00s -> 664.00s]  Yeah, three.
+[665.00s -> 666.00s]  Two and three quarters?
+[667.00s -> 668.00s]  I think, yeah.
+[668.00s -> 669.00s]  Yeah, yeah.
+[669.00s -> 670.00s]  Okay.
+[672.00s -> 673.00s]  2.75, there we go.
+[674.00s -> 675.00s]  Okay.
+[675.00s -> 677.00s]  Criteria B, criterion B.
+[677.00s -> 679.00s]  Technologically innovative.
+[680.00s -> 683.00s]  I would give that a three.
+[686.00s -> 687.00s]  I'd give it a one.
+[687.00s -> 688.00s]  Okay.
+[689.00s -> 690.00s]  Not that you're biased.
+[690.00s -> 691.00s]  No, no, not at all.
+[692.00s -> 693.00s]  The designer.
+[696.00s -> 697.00s]  A two.
+[699.00s -> 700.00s]  Oh, sorry, I got it wrong.
+[701.00s -> 704.00s]  The first one rating, I'm sorry, can you just make it two?
+[705.00s -> 706.00s]  The average?
+[706.00s -> 707.00s]  Yeah, I just started that.
+[707.00s -> 708.00s]  You want your rating to be a two?
+[709.00s -> 710.00s]  In AA.
+[710.00s -> 711.00s]  Is that what you're saying?
+[711.00s -> 712.00s]  Yep, I just got it.
+[715.00s -> 716.00s]  So I'll work out the average for that again at the end.
+[716.00s -> 718.00s]  It's a very slightly altered.
+[719.00s -> 721.00s]  Okay, I'm just waiting for your rating.
+[721.00s -> 722.00s]  2.5 for that one.
+[723.00s -> 724.00s]  2.5, okay.
+[727.00s -> 728.00s]  Using one decimal place.
+[731.00s -> 732.00s]  So you're rating for this one?
+[732.00s -> 733.00s]  Two.
+[733.00s -> 734.00s]  Two, okay.
+[735.00s -> 738.00s]  So that is eight, that brings it down to two, nice and simple.
+[738.00s -> 739.00s]  Two.
+[739.00s -> 740.00s]  Yeah.
+[741.00s -> 744.00s]  Okay, ease of use, easy to use.
+[745.00s -> 748.00s]  Based on what you've said there, I would say a one.
+[748.00s -> 749.00s]  True.
+[752.00s -> 753.00s]  Two.
+[758.00s -> 759.00s]  I would say a two.
+[760.00s -> 761.00s]  A two, okay.
+[761.00s -> 762.00s]  I would say a two.
+[763.00s -> 764.00s]  Two.
+[764.00s -> 765.00s]  Two.
+[766.00s -> 768.00s]  I should have said a two to make the arithmetic easier.
+[770.00s -> 774.00s]  We'll just put almost two because I'm not going to get into silly decimal places.
+[774.00s -> 775.00s]  Okay.
+[775.00s -> 776.00s]  Okay?
+[776.00s -> 778.00s]  If we want to really bring it down, we can do later.
+[781.00s -> 784.00s]  Now we're looking at, it incorporates current fashion trends,
+[784.00s -> 787.00s]  and that's particularly in relation to our market research findings
+[787.00s -> 790.00s]  about the spongy texture to the exterior.
+[791.00s -> 793.00s]  And the fruit and vegetable design colors.
+[793.00s -> 794.00s]  Yeah.
+[794.00s -> 795.00s]  Right.
+[795.00s -> 798.00s]  So I'm just thinking before I give it my rating,
+[798.00s -> 801.00s]  you were limited in the use of materials for your prototype here.
+[801.00s -> 802.00s]  Yeah.
+[802.00s -> 804.00s]  Is this actually going to be the colors that you use?
+[804.00s -> 810.00s]  No, the base color was white or sort of a light blue.
+[810.00s -> 815.00s]  But the changeable faces would allow you to get any,
+[815.00s -> 818.00s]  basically any one of a number of colors.
+[819.00s -> 821.00s]  So we could use any strong fruit and vegetable colors,
+[821.00s -> 822.00s]  and that's what we're intending to do?
+[822.00s -> 823.00s]  Yeah.
+[823.00s -> 824.00s]  Okay.
+[824.00s -> 826.00s]  And the spongy feel is no problem with that?
+[826.00s -> 832.00s]  No, because the spongy feel would be in the rubber that you put around it.
+[832.00s -> 833.00s]  Okay.
+[833.00s -> 835.00s]  Otherwise, it's just sort of hard plastic.
+[835.00s -> 837.00s]  In that case, it's got to be a one for me.
+[838.00s -> 839.00s]  Yeah, I'll give it a one as well.
+[839.00s -> 840.00s]  Yeah.
+[840.00s -> 841.00s]  Everybody?
+[841.00s -> 842.00s]  Okay.
+[843.00s -> 844.00s]  One.
+[844.00s -> 846.00s]  That part was nice and easy.
+[846.00s -> 847.00s]  Yeah.
+[847.00s -> 848.00s]  Okay.
+[848.00s -> 853.00s]  Moving on to, does the design minimize repetitive strain injury?
+[855.00s -> 857.00s]  I don't think we've really touched on that a lot.
+[857.00s -> 858.00s]  We've discussed it.
+[858.00s -> 863.00s]  We haven't really come up with anything that we felt could feasibly reduce that.
+[863.00s -> 866.00s]  We've talked about pointers, but the very use of a remote control,
+[866.00s -> 868.00s]  if you're someone who's zapping, who's sitting like that,
+[868.00s -> 869.00s]  we found so many people did.
+[869.00s -> 871.00s]  How do you minimize that in such a small device?
+[871.00s -> 874.00s]  Well, the type of button that we're going to use in the bottom here,
+[875.00s -> 876.00s]  the material,
+[876.00s -> 877.00s]  It's meant to be.
+[877.00s -> 878.00s]  in my scissor sci, it's meant to.
+[878.00s -> 879.00s]  Mm-hmm.
+[882.00s -> 885.00s]  Maybe because with the size that we've got, it's quite small,
+[885.00s -> 888.00s]  but with the amount of stuff we're putting on it, it isn't that much.
+[888.00s -> 890.00s]  So maybe because there's more space,
+[890.00s -> 895.00s]  it's not kind of moving around to hit accurately the buttons in between.
+[895.00s -> 896.00s]  Right.
+[896.00s -> 898.00s]  It's quite obvious, just big buttons.
+[898.00s -> 899.00s]  Right.
+[900.00s -> 903.00s]  I think I'm going to have to be neutral on that and give it a four.
+[904.00s -> 908.00s]  Yeah, I'd go for a five, actually.
+[908.00s -> 909.00s]  Five, okay.
+[911.00s -> 912.00s]  Four.
+[912.00s -> 913.00s]  Four.
+[913.00s -> 914.00s]  Four.
+[914.00s -> 915.00s]  Four, okay.
+[917.00s -> 921.00s]  21, not 21, so that's 4.25.
+[921.00s -> 922.00s]  Yep.
+[925.00s -> 929.00s]  And finally, last but not least, easy to locate.
+[929.00s -> 932.00s]  We talked about voice recognition, we talked about a beeper.
+[932.00s -> 934.00s]  Yeah, we really haven't come to any.
+[934.00s -> 937.00s]  Yeah, it was a voice recognition.
+[937.00s -> 938.00s]  It was the ideal thing.
+[938.00s -> 940.00s]  Voice recognition, yeah.
+[940.00s -> 942.00s]  And we're happy with the costs on that.
+[942.00s -> 944.00s]  That is going to be feasible cost-wise.
+[944.00s -> 945.00s]  Yeah, that is feasible.
+[945.00s -> 946.00s]  That sounds good then.
+[946.00s -> 950.00s]  I'd go for, we can adjust the volume on that just as we could volume on TV.
+[952.00s -> 955.00s]  If someone's in the other room or TV's in different rooms.
+[956.00s -> 959.00s]  I think it would probably be a standard.
+[959.00s -> 961.00s]  It would be quite loud.
+[961.00s -> 962.00s]  It would be.
+[962.00s -> 963.00s]  So it would be.
+[963.00s -> 966.00s]  And if you didn't hear it in the room you were standing in,
+[966.00s -> 968.00s]  then you realise it wasn't in that room.
+[968.00s -> 969.00s]  Okay.
+[969.00s -> 970.00s]  Logical.
+[970.00s -> 971.00s]  That's a one for me.
+[971.00s -> 972.00s]  Yeah, one.
+[972.00s -> 973.00s]  One.
+[973.00s -> 974.00s]  One.
+[974.00s -> 975.00s]  And one.
+[975.00s -> 976.00s]  Good.
+[977.00s -> 980.00s]  I do realise that we might be being fairly biased,
+[980.00s -> 982.00s]  because it isn't a product.
+[982.00s -> 985.00s]  So, how do we feel about this?
+[985.00s -> 989.00s]  We've got the highest rating of meeting the specifications,
+[989.00s -> 994.00s]  that is definitely true for two of the six criteria there.
+[994.00s -> 998.00s]  That is for incorporates current fashion trends
+[998.00s -> 1000.00s]  and is easy to locate.
+[1000.00s -> 1003.00s]  The lowest rating we've got, which is really, it's not terribly low,
+[1003.00s -> 1005.00s]  it's close around neutral,
+[1005.00s -> 1009.00s]  is for the minimisation of repetitive strain injury.
+[1010.00s -> 1013.00s]  Do we feel on the basis of these evaluation findings
+[1013.00s -> 1017.00s]  that we can go ahead and now produce this as a prototype and market it,
+[1017.00s -> 1020.00s]  or do we have to make further modifications?
+[1020.00s -> 1022.00s]  I don't think so.
+[1022.00s -> 1024.00s]  I think, yeah.
+[1024.00s -> 1028.00s]  I think for most of those ratings it's high enough
+[1028.00s -> 1031.00s]  at the upper end of the scale for us to go ahead with that.
+[1031.00s -> 1035.00s]  And I really doubt if, on the basis of current technology
+[1035.00s -> 1038.00s]  and our current capabilities, we could actually do much more.
+[1038.00s -> 1040.00s]  Do much, apart from having a huge, big...
+[1040.00s -> 1041.00s]  I know.
+[1041.00s -> 1042.00s]  Okay.
+[1042.00s -> 1044.00s]  And I hope that's clear to the team.
+[1044.00s -> 1049.00s]  Is there anything you would like to ask me about the findings before I sum up?

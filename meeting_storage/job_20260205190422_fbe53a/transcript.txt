@@ -1,0 +1,2 @@
+[0.00s -> 28.36s]  It's a microphone that's supposed to be to your right.
+[28.36s -> 29.36s]  And then where's the other one?
