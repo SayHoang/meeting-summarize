@@ -58,41 +58,36 @@ def generate_summary_stream(params: dict) -> Iterable[str]:
 
 def generate_summary_to_file(
     params: dict,
-    on_progress: Optional[Callable[[dict], None]] = None,
     on_chunk: Optional[Callable[[str], None]] = None,
 ) -> str:
     output_file = params.get("output_file")
     if not output_file:
         raise ValueError("output_file is required.")
 
-    chunk_index = 0
     with open(output_file, "w") as f:
         for chunk_text in generate_summary_stream(params):
             f.write(chunk_text)
             if on_chunk:
                 on_chunk(chunk_text)
 
-            if on_progress:
-                chunk_index += 1
-                percent = min(95, 5 + (chunk_index * 3))
-                on_progress({"percent": percent, "message": "Summarizing..."})
-
-    if on_progress:
-        on_progress({"percent": 100, "message": "Summary completed"})
-
     return output_file
 
-def main() -> int:
-    transcript_path = "../outputs/ES2004c_20260127160026.txt"
-    output_dir = get_config("output_dir")
-    output_file = generate_output_filename(transcript_path, output_dir)
+## Test code
+# main()
+#     transcript_path = "../outputs/ES2004c_20260127160026.txt"
+#     output_dir = get_config("output_dir")
+#     output_file = generate_output_filename(transcript_path, output_dir)
 
-    generate_summary_to_file(
-        {
-            "transcript_path": transcript_path,
-            "output_file": output_file,
-        }
-    )
+#     generate_summary_to_file(
+#         {
+#             "transcript_path": transcript_path,
+#             "output_file": output_file,
+#         }
+#     )
+#     return 0
+
+
+def main() -> int:
     return 0
 
 

@@ -59,14 +59,17 @@ streamlit run frontend/app.py
 ```
 KLTN/
 │
-├── src/
-│   ├── prompts         # Store prompts (.txt)
-│   ├── config.json     # Configuration
-│   ├── faster.py       # Faster-whisper Code
-│   ├── summarize.py    # Summarize Code
-│   └── utils.py        # Utils Code
-|
-├── uploads/            # Directory store audio
-|
-├── outputs/            # Directory store transcript
+├── backend/
+│   ├── core/           # Transcribe/summarize core
+│   ├── storage.py      # Filesystem job storage
+│   ├── paths.py        # Paths for storage
+│   ├── types.py        # Pydantic types
+│   ├── transcribe_service.py
+│   └── summarize_service.py
+│
+├── frontend/
+│   ├── app.py          # Streamlit UI
+│   └── pages/          # History & Settings
+│
+├── meeting_storage/    # Stored jobs (audio/transcript/summary)
 

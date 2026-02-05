@@ -1,0 +1,308 @@
+[0.00s -> 2.00s]  I'll wait until you're all done.
+[60.00s -> 61.00s]  Okay.
+[61.00s -> 62.00s]  Welcome back, everybody.
+[62.00s -> 63.00s]  I hope you've had fun.
+[63.00s -> 64.00s]  Right.
+[64.00s -> 65.00s]  This is our conceptual design meeting.
+[65.00s -> 92.72s]  I think we're slightly ahead of ourselves from the beginning, so I'm going to go ahead
+[122.72s -> 123.72s]  and get started.
+[123.72s -> 132.72s]  The minutes from last time, we had a couple of changes in our plans in that we couldn't
+[132.72s -> 133.72s]  use teletext.
+[133.72s -> 140.72s]  It wasn't going to be a control for everything, and that we had to incorporate the image of
+[140.72s -> 144.88s]  a company into it sometimes.
+[144.88s -> 150.88s]  We have decided on leaving out the voice recognition.
+[151.04s -> 160.04s]  We've decided on there being a flip design and a different shape from what's normal.
+[160.04s -> 163.04s]  We were thinking a shell, but something along those lines.
+[163.04s -> 169.04s]  Just a different shape from what's normal.
+[169.04s -> 172.04s]  You were going to look into the rechargeable batteries.
+[172.04s -> 173.04s]  Yep.
+[173.04s -> 178.04s]  And we were going to think about the port and an alarm for getting it lost.
+[178.04s -> 179.04s]  Yeah.
+[179.20s -> 188.20s]  And our market was going to be young business kind of range.
+[188.20s -> 189.20s]  Okay.
+[189.20s -> 191.20s]  So should we start with the first presentation?
+[191.20s -> 192.20s]  Shall I?
+[192.20s -> 193.20s]  Yes, if you please.
+[193.20s -> 194.20s]  Just connect up.
+[194.20s -> 195.20s]  Thank you.
+[195.20s -> 196.20s]  Okay.
+[196.20s -> 223.20s]  So we decided on our market, and so this feedback from the marketing department is
+[224.20s -> 229.20s]  really about trend watching.
+[229.20s -> 237.20s]  The methods we used to decide on current trends and so on, market trends, were that we did
+[237.20s -> 244.20s]  our traditional, our usual market research study with our 100 subjects, and the general
+[244.20s -> 246.20s]  feedback from them is that the most...
+[246.20s -> 249.20s]  I'm sorry, I'm slightly tongue-tied after lunch.
+[249.20s -> 250.20s]  Sorry.
+[250.20s -> 251.20s]  Sure.
+[251.20s -> 256.20s]  We decided on the most important aspect required in a remote control device, and we'll come
+[256.20s -> 257.20s]  to that later.
+[257.20s -> 258.20s]  So that was one of the first things we did.
+[258.20s -> 264.20s]  Also, with our company being forerunners in putting fashion into technology, we also looked
+[264.20s -> 270.20s]  at a fashion update using our consultants on fashion and design in Paris and Milan.
+[270.20s -> 276.20s]  So the general findings from that was that in the market trends, the most important aspects
+[277.20s -> 284.20s]  were people want a fancy look and feel, rather than the current functional look and feel
+[284.20s -> 285.20s]  of remote controls.
+[285.20s -> 292.20s]  They also want a remote control to be technologically innovative, and of course, as you predicted,
+[292.20s -> 294.20s]  that it should be easy to use.
+[294.20s -> 299.20s]  Now I should point out that the first of those findings, fancy look and feel, is the most
+[299.20s -> 300.20s]  important.
+[300.20s -> 305.20s]  It's twice as important as the second, technologically innovative, which is in turn twice as important
+[305.20s -> 307.20s]  as being easy to use.
+[307.20s -> 311.20s]  So possibly that the feature that we put first is actually third.
+[311.20s -> 316.20s]  It's still important, but it's third in order of preference for the subject that we looked
+[316.20s -> 317.20s]  at.
+[317.20s -> 318.20s]  Okay.
+[318.20s -> 324.20s]  Now the fashion update, which relates to very personal preferences among our subject group,
+[324.20s -> 330.20s]  we found from our consultants in Paris and Milan, who attended all the design and fashion
+[330.20s -> 334.20s]  fairs then, that fruit and vegetables are going to be the theme for clothes, shoes,
+[334.20s -> 335.20s]  furniture.
+[335.20s -> 340.20s]  So should we be thinking of using something like that in our remote control design too?
+[340.20s -> 346.20s]  There also seems to be a trend towards a spongy feel to materials, again in contrast to last
+[346.20s -> 347.20s]  year.
+[347.20s -> 351.20s]  So a lot of interesting feedback there, both from our market research department and from
+[351.20s -> 353.20s]  our people in Paris and Milan.
+[353.20s -> 357.20s]  It'll be interesting to see what our design people make of that.
+[357.20s -> 361.20s]  Okay, thank you very much.
+[361.20s -> 364.20s]  Let's start from the inside and work our way out.
+[364.20s -> 365.20s]  Yep, okay.
+[365.20s -> 367.20s]  Unless anyone has any questions about that?
+[367.20s -> 368.20s]  Not yet?
+[368.20s -> 369.20s]  Okay.
+[388.20s -> 390.20s]  I hate those little things.
+[391.20s -> 395.20s]  Especially if you do them on too tight and you can't get the leverage on them to undo
+[395.20s -> 396.20s]  them.
+[411.20s -> 412.20s]  Okay.
+[412.20s -> 418.20s]  This is all about the design of the edge components and the availability of the components we
+[418.20s -> 421.20s]  have in stock at the moment.
+[421.20s -> 422.20s]  Okay.
+[422.20s -> 432.20s]  First, into the method, the main idea of the whole thing is just so you just press buttons
+[432.20s -> 437.20s]  and it should activate things on the TV and we discussed last meeting that it should be
+[437.20s -> 439.20s]  easy to find.
+[439.20s -> 444.20s]  Also, in this study, I've looked into the availability of some of the materials because
+[445.20s -> 451.20s]  some of the things that we looked at last time unfortunately aren't available.
+[453.20s -> 456.20s]  Bindings, I've got my nice little picture there.
+[456.20s -> 463.20s]  This is the chip called the TA11835, which is what's used in pretty much every remote
+[463.20s -> 470.20s]  control because it sends out standard signals based on your input and it's pretty much used
+[470.20s -> 474.20s]  in all TV remotes at the moment.
+[476.20s -> 479.20s]  And then we're looking into battery options.
+[480.20s -> 484.20s]  There's actually no rechargeable option available.
+[484.20s -> 493.20s]  So, I saw the standard AA and AAA, which we thought were a bit too bulky at the moment.
+[493.20s -> 498.20s]  Dynamo charging, I thought that might be a bit silly to be honest.
+[499.20s -> 501.20s]  It's basically like wind-up radio.
+[501.20s -> 502.20s]  Right.
+[502.20s -> 505.20s]  So, you wind up your remote control before you use it.
+[505.20s -> 508.20s]  How long can you get out of that?
+[508.20s -> 512.20s]  Can you pick it up and then wind it for two minutes and then that's it for the night?
+[512.20s -> 519.20s]  Yeah, I presume you wouldn't have to wind it for very long, but I don't think it's really
+[519.20s -> 527.20s]  sort of necessary when you think of the next two options like the solar charging because
+[527.20s -> 532.20s]  most people have the light on in the room anyway, so they could get when you've got TV.
+[532.20s -> 534.20s]  Does this light charge as sunlight does?
+[534.20s -> 535.20s]  No.
+[536.20s -> 537.20s]  Is it?
+[537.20s -> 538.20s]  Oh, right.
+[540.20s -> 545.20s]  Regarding the sizes, which one you think will be like because we have to take into consideration
+[545.20s -> 546.20s]  size also.
+[546.20s -> 551.20s]  So, maybe standard AAA might take lesser space and Dynamo might take more space.
+[551.20s -> 552.20s]  Yeah, it would.
+[552.20s -> 556.20s]  The Dynamo would take more space because you'd actually need a physical sort of handle to
+[556.20s -> 557.20s]  wind up.
+[557.20s -> 559.20s]  I'm pretty sure that solar is from the sun.
+[559.20s -> 560.20s]  Yeah, okay.
+[560.20s -> 562.20s]  I don't think it counts electric lights.
+[562.20s -> 563.20s]  Artificial light, no.
+[563.20s -> 568.20s]  But, I mean, you don't want to limit your market.
+[568.20s -> 571.20s]  I mean, people who live in basement flats, there's not that many people.
+[571.20s -> 572.20s]  I know, different parts of the world too.
+[572.20s -> 573.20s]  But there are people.
+[573.20s -> 575.20s]  If we're marketing internationally.
+[575.20s -> 580.20s]  Yeah, and most people also watch TV in the night anyway.
+[580.20s -> 582.20s]  But then it would be charging through the day.
+[583.20s -> 587.20s]  I think the point is it charges through the day and then you've got it charged.
+[587.20s -> 593.20s]  But I think the next one's the best anyway, the kinetic charging, which is like you get
+[593.20s -> 598.20s]  it in wristwatches and you don't even notice it.
+[598.20s -> 603.20s]  I mean, the amount of probably moving around you'd be doing all the time would charge it
+[603.20s -> 604.20s]  up.
+[604.20s -> 608.20s]  I don't think you'd ever need to actually physically start shaking it up to make it work.
+[609.20s -> 612.20s]  And what is the life of the kinetic battery?
+[612.20s -> 614.20s]  It runs for a long time?
+[614.20s -> 623.20s]  Yeah, it charges into some form of, it's a smaller cell which it charges into.
+[623.20s -> 629.20s]  And the size of a watch battery, because they use them quite frequently in watches.
+[629.20s -> 637.20s]  And that would last for, well, I'm not entirely sure how long it would last.
+[637.20s -> 639.20s]  But I've never seen one run out.
+[639.20s -> 644.20s]  But then if you think about a watch, it's on your wrist, so it's on your body the whole
+[644.20s -> 645.20s]  time.
+[645.20s -> 646.20s]  Yeah.
+[646.20s -> 649.20s]  So you're walking around, you're doing things, it is moving a lot of the time.
+[649.20s -> 650.20s]  Yeah.
+[650.20s -> 653.20s]  I mean, you switch the TV on, then you put it on the side, then you pick it up to change
+[653.20s -> 655.20s]  it, then you put it on the side.
+[655.20s -> 657.20s]  Is it really going to be enough?
+[657.20s -> 663.20s]  I think it is, because if you think about it, the watch, although it's only a tiny amount,
+[663.20s -> 669.20s]  it's always moving for the whole day.
+[669.20s -> 672.20s]  And they don't run out overnight when you leave them on the side.
+[672.20s -> 673.20s]  Okay.
+[673.20s -> 679.20s]  And for the same reason, you're only using it for an incredibly short amount of time
+[679.20s -> 681.20s]  just to send the signal, and then you're finished with it.
+[681.20s -> 683.20s]  So it's not the draw on it, is it?
+[683.20s -> 685.20s]  No, no, I don't think the draw on it would be...
+[685.20s -> 690.20s]  Could I just ask, referring back to solar charging, is that compatible with standard
+[690.20s -> 691.20s]  batteries?
+[691.20s -> 695.20s]  I mean, could people put standard batteries in, but they could leave it in the sunlight
+[695.20s -> 696.20s]  for solar charging?
+[696.20s -> 698.20s]  Are the two things not compatible?
+[698.20s -> 704.20s]  Yeah, I think you could have a dual power thing, but the thing with the solar cells
+[704.20s -> 709.20s]  is you would need to put them on the case, because if you...
+[709.20s -> 714.20s]  Like on a calculator, they're quite big, and they all look identical.
+[714.20s -> 716.20s]  Does that affect the exterior design?
+[716.20s -> 717.20s]  Expensive as well.
+[717.20s -> 718.20s]  They're expensive.
+[719.20s -> 723.20s]  I presume the normal batteries are the cheapest.
+[723.20s -> 725.20s]  Yeah, the normal batteries would be the cheapest.
+[725.20s -> 735.20s]  I presume then it would actually be the solar charging ones, but I think they're not very
+[735.20s -> 738.20s]  resistant to dropping.
+[738.20s -> 743.20s]  Because if you drop stuff, yeah, if you have the size you'd need to charge a remote, it
+[743.20s -> 744.20s]  wouldn't be that big.
+[744.20s -> 749.20s]  But I mean, remotes always get thrown around and stuff.
+[749.20s -> 750.20s]  Practically.
+[750.20s -> 751.20s]  Yeah, practically.
+[751.20s -> 758.20s]  I mean, calculators you don't really throw around a lot, whereas remotes you do.
+[758.20s -> 762.20s]  Don't calculators have a battery in them as well?
+[762.20s -> 763.20s]  Yeah, they do.
+[763.20s -> 767.20s]  They've got dual things, but the batteries are smaller, I think.
+[767.20s -> 771.20s]  Another question is like, which one would last the longest?
+[771.20s -> 774.20s]  Because we don't want customers to be like, you know, charging like a mobile phone every
+[774.20s -> 775.20s]  day.
+[775.20s -> 777.20s]  A remote control, like.
+[777.20s -> 779.20s]  So, look at the life also.
+[779.20s -> 790.20s]  Yeah, if you had something using the standard batteries and the solar charging, I don't
+[790.20s -> 791.20s]  think you'd...
+[791.20s -> 796.20s]  I think it would, well, you know how long the standard AA's would last in, or AAA's
+[796.20s -> 797.20s]  would last.
+[797.20s -> 798.20s]  It would just detract from the attractiveness of the whole feature.
+[798.20s -> 799.20s]  Yeah, I think it would.
+[799.20s -> 800.20s]  It's not going to add anything.
+[800.20s -> 801.20s]  Okay.
+[801.20s -> 802.20s]  Okay, can we add in an attachment to clothing feature?
+[802.20s -> 803.20s]  Okay.
+[803.20s -> 804.20s]  Can we think about that?
+[804.20s -> 805.20s]  Because if we're doing the kinetic thing.
+[805.20s -> 806.20s]  Yeah.
+[806.20s -> 807.20s]  And.
+[807.20s -> 808.20s]  Shouldn't we do some market research on that first before we add it in?
+[808.20s -> 809.20s]  Because I personally.
+[809.20s -> 810.20s]  We'll add it in to think about.
+[810.20s -> 811.20s]  Right, okay.
+[811.20s -> 812.20s]  Because, where am I?
+[812.20s -> 813.20s]  If it is the kinetic thing, then it's not going to add anything.
+[813.20s -> 814.20s]  Yeah.
+[814.20s -> 815.20s]  Yeah.
+[815.20s -> 816.20s]  And the kinetic is something people don't do.
+[816.20s -> 817.20s]  Kind of.
+[817.20s -> 818.20s]  We're doing something original and different.
+[818.20s -> 819.20s]  But if you wore it, if it's something you could just clip on your pocket, then you wouldn't
+[819.20s -> 820.20s]  think about it.
+[820.20s -> 821.20s]  Yeah.
+[821.20s -> 822.20s]  Yeah.
+[822.20s -> 823.20s]  Yeah.
+[823.20s -> 824.20s]  Yeah.
+[824.20s -> 825.20s]  Yeah.
+[825.20s -> 826.20s]  Yeah.
+[826.20s -> 827.20s]  Yeah.
+[827.20s -> 828.20s]  Yeah.
+[828.20s -> 829.20s]  Yeah.
+[829.20s -> 830.20s]  Yeah.
+[830.20s -> 831.20s]  Yeah.
+[831.20s -> 832.20s]  Yeah.
+[832.20s -> 833.20s]  Yeah.
+[833.20s -> 834.20s]  Yeah.
+[834.20s -> 835.20s]  Yeah.
+[835.20s -> 836.20s]  Yeah.
+[836.20s -> 837.20s]  Yeah.
+[837.20s -> 838.20s]  Yeah.
+[838.20s -> 839.20s]  Yeah.
+[839.20s -> 840.20s]  Yeah.
+[840.20s -> 841.20s]  Yeah.
+[841.20s -> 842.20s]  Yeah.
+[842.20s -> 843.20s]  Yeah.
+[843.20s -> 844.20s]  Just because you don't think about it, then you would have that less.
+[844.20s -> 845.20s]  Yeah.
+[845.20s -> 846.20s]  You wouldn't lose it.
+[846.20s -> 847.20s]  Yeah.
+[847.20s -> 848.20s]  Not so much.
+[848.20s -> 852.52s]  But then, maybe that's looking at someone who's just sitting on their own rather than
+[852.52s -> 857.28s]  the eternal battle for control of it.
+[857.28s -> 862.00s]  It's not something that's come up in any of our focus groups and market research.
+[862.00s -> 867.00s]  It's not a thing that people are looking for.
+[867.00s -> 868.00s]  Okay.
+[868.00s -> 869.00s]  That we threw open to the field, yeah.
+[869.00s -> 870.00s]  But it's something to put on the side to think about then.
+[870.00s -> 871.00s]  Okay, right.
+[871.00s -> 872.00s]  Okay, well, I'll move on.
+[872.00s -> 880.64s]  Okay, well I'll move on. My second part of my findings, most current
+[880.64s -> 889.14s]  remotes use this silicon PCB board, printed circuit board, which
+[889.14s -> 893.40s]  basically has these contacts that are really close together and then when you press
+[893.40s -> 898.90s]  down on the rubber button it'll connect the circuit and each switch is
+[898.90s -> 904.30s]  connected to two different legs on the chip and so sends a different message
+[904.30s -> 912.40s]  and that then gets translated by the chip into a code and then it's fired out
+[912.40s -> 917.90s]  of this LED in a sequence of on and off bursts.
+[917.90s -> 919.90s]  What kind of things do we have to consider there?
+[919.90s -> 924.90s]  What kind of size, does it come in varying sizes or is it just one size?
+[925.90s -> 933.90s]  The thing about it is that they can be as big or as small as you want
+[933.90s -> 938.62s]  them to be because you can print a circuit board like that, it's
+[938.62s -> 943.02s]  simply spaced like that so you can fit the size of the nine buttons in.
+[943.02s -> 948.14s]  If you see how thin the tracks are, you could put them
+[948.14s -> 952.06s]  virtually right next to each other and have a much smaller switch on each one
+[952.06s -> 959.82s]  if you wanted to, but there is an option to do it like that, or you
+[959.82s -> 966.30s]  could have some sort of array of switches which I'll speak about in the next bit.
+[966.30s -> 974.34s]  To conserve battery life, the remote should be in a
+[974.34s -> 978.58s]  standby mode while not being used. What I was thinking about that was
+[979.54s -> 983.86s]  sometimes when you have these things they've got little lights on behind the
+[983.86s -> 987.50s]  buttons so you can see what all the buttons are, like on a mobile phone they
+[987.50s -> 993.54s]  do it more often than on a TV remote, but you could have lights
+[993.54s -> 998.50s]  behind the buttons and after like five or ten seconds of not being used I'd
+[998.50s -> 1005.90s]  have that turned off if we decided to go for buttons that could light up.
+[1005.90s -> 1015.10s]  As for the case material, I've been sent what the factory can actually give us.
+[1015.10s -> 1021.42s]  There's the plastic which I think we were going to go for anyway as the main case
+[1021.42s -> 1030.38s]  housing and the main problems with the, well you could go for wood but I
+[1030.38s -> 1037.94s]  think it would be a bit impractical. Titanium, very expensive, just the process
+[1037.94s -> 1045.34s]  which to make it is expensive. And rubber, well you're saying that people like this
+[1045.34s -> 1052.46s]  spongy feel this year, so perhaps something made of rubber, but I was
+[1052.46s -> 1059.62s]  thinking more of the buttons because the buttons which they've put
+[1059.62s -> 1067.14s]  across are what is used in some stress ball manufacture and it's meant to be
+[1067.14s -> 1074.18s]  anti-RSI. I'm not sure how that would work because surely your fingers would
+[1074.18s -> 1080.90s]  still be moving over the short distances, but that's what they said. The problem
+[1080.90s -> 1090.46s]  with the casing is that there's quite a few design restrictions
+[1090.46s -> 1095.66s]  that they've got on the shape of the case. If you go for titanium they can
+[1095.66s -> 1101.06s]  only do a standard box shape, whereas if you come to plastic they can
+[1101.06s -> 1106.22s]  be a little more, they can do sort of curved shapes, but whether
+[1106.22s -> 1113.22s]  or not, because we'd have it in two separate units for the flip phone.
+[1113.22s -> 1117.90s]  And second question is like mobile you can change the cover, call it a skin or whatever.
+[1117.90s -> 1120.86s]  So in this case if you're looking at like a customer can change the color like from
+[1120.86s -> 1124.78s]  green, padded green to chilli red or something like that. Is that feature available in
+[1124.78s -> 1131.14s]  like titanium or is it only specific to plastic? Yeah in titanium I don't think it would be
+[1131.14s -> 1136.98s]  available at all really. Well you could make it available in the
+[1136.98s -> 1141.06s]  titanium, it was just it would be so expensive to buy a new case for it
+[1141.06s -> 1147.10s]  because of the expense of how much titanium is. It's light and strong but I
+[1147.10s -> 1159.66s]  think it should be left for aircraft design rather than for a remote. It does mark quite easily too, if you let it fall. I've got a mobile phone myself which is titanium and it does mark very easily if you drop it.
+[1159.66s -> 1168.66s]  I'm just wondering if we make the basic mold out of plastic but have like a rubber cover that you give the spongy feel, that also allows us to kind of have different fascias.
+[1168.66s -> 1175.66s]  And you can peel them off yeah. So instead of the fascia that comes off being plastic, the fascia that comes off being rubber. Like a rubber sleeve almost.
+[1175.66s -> 1184.66s]  Like those pens that you get with a grip. Yeah. That could be a good idea. It could be comfortable to hold on to.
+[1184.66s -> 1188.66s]  It's a very cheap way of changing the look of it and people can just buy a new one if they want to.
+[1188.66s -> 1193.66s]  Well that's been really popular with mobile phones so I don't see why not.
+[1193.66s -> 1204.66s]  Also just going back to the interface designs with the buttons, we were planning to do some sort of touch screen.
+[1204.66s -> 1212.66s]  Now what I was saying before about instead of having, you could have just a bare PCB circuit board
+[1212.66s -> 1222.66s]  and I'm sure you could probably get it in different colours and so just by touching it with your finger it would make the connection over if you had them close enough.
+[1222.66s -> 1237.66s]  That would be one option. The second option, they offer rubber buttons but I thought that an LCD type of screen, because one, they're incredibly thin and don't take up much space.
+[1237.66s -> 1250.66s]  Two, you can have them in a sort of array and you could arrange the buttons on the screen in a sort of set thing and you could have them like a touch display.
+[1250.66s -> 1253.66s]  Sorry I didn't get your last part.
+[1253.66s -> 1254.66s]  What?
+[1254.66s -> 1258.66s]  Just what you said, I didn't get the meaning of it completely.
+[1259.66s -> 1270.66s]  Oh on the LCD screen, you could fit it, the problem with it basically is that it's flat and so you can't do lots of curved things with it.
+[1270.66s -> 1285.66s]  But you wouldn't have, with the LCD you'd have the wires coming off, you wouldn't have that with the LCD, you'd only have that with the printed circuit board.
+[1285.66s -> 1290.66s]  Sorry to interrupt, I don't see why the curved thing is a problem. If we, for example, had a shell.
+[1290.66s -> 1291.66s]  Yeah.
+[1291.66s -> 1294.66s]  You could have a flat screen inside.
+[1294.66s -> 1295.66s]  Yeah.
+[1295.66s -> 1307.66s]  But I'm just wondering whether we want an LCD screen inside. It wouldn't be like full colour, it would just be black and white, but there'd be touch buttons so you wouldn't be pressing down on them.
+[1307.66s -> 1312.66s]  Or we could have rubber buttons which are made of this material which is anti-RSI.
+[1312.66s -> 1321.66s]  I think it would be good to have a contrast between if the whole thing is going to be this rubber thing, it would be good to open it up and see something quite fancy looking inside.

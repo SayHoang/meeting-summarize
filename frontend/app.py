@@ -4,12 +4,12 @@ from pathlib import Path
 import streamlit as st
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-SRC_DIR = PROJECT_ROOT / "src"
+CORE_DIR = PROJECT_ROOT / "backend" / "core"
 
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
-if str(SRC_DIR) not in sys.path:
-    sys.path.insert(0, str(SRC_DIR))
+if str(CORE_DIR) not in sys.path:
+    sys.path.insert(0, str(CORE_DIR))
 
 from backend import paths, storage, summarize_service, transcribe_service
 from backend.types import SummarizeParams, TranscribeParams
@@ -49,12 +49,14 @@ def _transcribe_flow(audio_bytes: bytes, original_filename: str) -> None:
     job_dir = paths.get_job_dir(job_meta.job_id)
     output_path = job_dir / "transcript.txt"
 
-    progress = st.progress(0)
-    status = st.empty()
+    segments_box = st.empty()
+    segment_lines: list[str] = []
 
-    def _on_progress(event) -> None:
-        progress.progress(int(event.percent))
-        status.caption(event.message)
+    def _on_segment(event: dict) -> None:
+        segment_line = event.get("segment_line")
+        if segment_line:
+            segment_lines.append(segment_line)
+            segments_box.code("\n".join(segment_lines))
 
     transcribe_service.run_transcribe(
         TranscribeParams(
@@ -62,7 +64,7 @@ def _transcribe_flow(audio_bytes: bytes, original_filename: str) -> None:
             input_path=str(job_dir / f"input{Path(original_filename).suffix.lower()}"),
             output_path=str(output_path),
         ),
-        on_progress=_on_progress,
+        on_segment=_on_segment,
     )
 
     transcript_text = output_path.read_text()
@@ -81,14 +83,8 @@ def _summarize_flow() -> None:
     job_dir = paths.get_job_dir(job_id)
     output_path = job_dir / "summary.txt"
 
-    progress = st.progress(0)
-    status = st.empty()
     preview = st.empty()
     summary_text = ""
-
-    def _on_progress(event) -> None:
-        progress.progress(int(event.percent))
-        status.caption(event.message)
 
     def _on_chunk(chunk: str) -> None:
         nonlocal summary_text
@@ -101,7 +97,6 @@ def _summarize_flow() -> None:
             transcript_path=transcript_path,
             output_path=str(output_path),
         ),
-        on_progress=_on_progress,
         on_chunk=_on_chunk,
     )
 

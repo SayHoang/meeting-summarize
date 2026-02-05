@@ -1,12 +1,12 @@
 from pathlib import Path
 
 
-def get_backend_root() -> Path:
+def get_project_root() -> Path:
     return Path(__file__).resolve().parents[1]
 
 
 def get_storage_root() -> Path:
-    return get_backend_root() / "meeting_storage"
+    return get_project_root() / "meeting_storage"
 
 
 def ensure_storage_root() -> Path:

@@ -1,7 +1,7 @@
 import os
 from datetime import datetime
 from functools import lru_cache
-from typing import Callable, Optional
+from typing import Dict, Iterable
 
 from faster_whisper import WhisperModel
 # from utils import get_config, load_key
@@ -52,8 +52,8 @@ def generate_output_filename(input_file: str, output_dir: str) -> str:
     
     return os.path.join(output_dir, output_file)
 
-def transcribe_audio(params: dict, on_progress: Optional[Callable[[dict], None]] = None) -> str:
-    """Transcribe audio file to text with optional progress updates."""
+def transcribe_audio_stream(params: dict) -> Iterable[Dict[str, object]]:
+    """Yield transcript segments as they are produced."""
     input_file = params.get("input_file")
     output_file = params.get("output_file")
     beam_size = params.get("beam_size", 5)
@@ -70,35 +70,29 @@ def transcribe_audio(params: dict, on_progress: Optional[Callable[[dict], None]]
         )
 
     model = _load_model(model_name, device)
-    segments, info = model.transcribe(input_file, beam_size=beam_size)
-    total_duration = getattr(info, "duration", None)
+    segments, _info = model.transcribe(input_file, beam_size=beam_size)
+
+    for segment_index, segment in enumerate(segments, start=1):
+        line = "[%.2fs -> %.2fs] %s" % (segment.start, segment.end, segment.text)
+        yield {
+            "segment_line": line,
+            "segment_index": segment_index,
+            "segment_start": segment.start,
+            "segment_end": segment.end,
+        }
+
+
+def transcribe_to_file(params: dict) -> str:
+    """Write transcript to file using the streaming generator."""
+    output_file = params.get("output_file")
+    if not output_file:
+        raise ValueError("output_file is required.")
 
     with open(output_file, "w") as f:
-        for segment_index, segment in enumerate(segments, start=1):
-            line = "[%.2fs -> %.2fs] %s" % (segment.start, segment.end, segment.text)
-            f.write(line + "\n")
-
-            if on_progress and total_duration and total_duration > 0:
-                percent = int(min(100, (segment.end / total_duration) * 100))
-                on_progress(
-                    {
-                        "percent": percent,
-                        "message": f"Processed segment {segment_index}",
-                        "segment_end": segment.end,
-                    }
-                )
-
-    if on_progress and not total_duration:
-        on_progress({"percent": 100, "message": "Transcript completed"})
+        for event in transcribe_audio_stream(params):
+            f.write(f"{event['segment_line']}\n")
 
     return output_file
-
-
-def transcribe_to_file_with_progress(
-    params: dict, on_progress: Optional[Callable[[dict], None]] = None
-) -> str:
-    """Wrapper to keep the output format unchanged."""
-    return transcribe_audio(params, on_progress)
 
 # def transcribe_and_diarize(input_file: str, output_file: str, beam_size: int = 5) -> None:
 #     """Transcribe audio and add speaker labels using Pyannote on CPU."""
@@ -170,17 +164,22 @@ def transcribe_to_file_with_progress(
         
 #     print(f"Transcript saved to {output_file}")
 
-def main() -> int:
-    input_file = get_config("input_file")
-    output_dir = get_config("output_dir")
-    output_file = generate_output_filename(input_file, output_dir)
+## Test code
+# main():
+#     input_file = get_config("input_file")
+#     output_dir = get_config("output_dir")
+#     output_file = generate_output_filename(input_file, output_dir)
 
-    transcribe_audio(
-        {
-            "input_file": input_file,
-            "output_file": output_file,
-        }
-    )
+#     transcribe_audio(
+#         {
+#             "input_file": input_file,
+#             "output_file": output_file,
+#         }
+#     )
+#     return 0
+
+
+def main() -> int:
     return 0
 
 
