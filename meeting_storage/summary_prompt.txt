@@ -26,3 +26,4 @@ Output Format:
 | Action Item | Assigned To (Role/Name) | Deadline |
 |-------------|-------------------------|----------|
 | [e.g., Design API Schema] | [e.g., Backend Developer] | [Date/TBD] |
+*(Note: TBD - To be Decided)*

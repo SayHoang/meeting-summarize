@@ -89,12 +89,7 @@ def _transcribe_flow(audio_bytes: bytes, original_filename: str) -> None:
                 status_box.empty()
                 has_first_segment = True
             segment_lines.append(segment_line)
-            segments_box.text_area(
-                f"Live transcript (showing {max_lines} lines; scroll to see all)",
-                value="\n".join(segment_lines),
-                height=box_height,
-                key=f"live_transcript_{job_meta.job_id}",
-            )
+            segments_box.code("\n".join(segment_lines))
 
     try:
         transcribe_service.run_transcribe(

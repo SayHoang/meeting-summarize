@@ -3,6 +3,7 @@ uploads/*
 outputs/*
 !uploads/.gitkeep
 !outputs/.gitkeep
+meeting_storage/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
