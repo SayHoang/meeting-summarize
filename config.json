@@ -1,9 +1,12 @@
 {
   "model_whisper": "large-v2",
+  "device": "cpu",
+  "compute_type": "int8",
+  "beam_size": 5,
+  "vad_filter": true,
+
   "input_file": "afjiv.wav",
   "output_dir": "../outputs",
-
-  "device": "cpu",
   
   "model_summary": "gemini-3-flash-preview",
   "temperature_summary": 0.3,

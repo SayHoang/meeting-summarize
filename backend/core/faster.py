@@ -15,7 +15,9 @@ SUPPORTED_FORMATS = [".mp3", ".mp4", ".wav", ".m4a", ".mov", ".mkv", ".webm"]
 
 @lru_cache(maxsize=2)
 def _load_model(model_name: str, device: str) -> WhisperModel:
-    return WhisperModel(model_name, device=device, compute_type="int8")
+    compute_type = get_config("compute_type")
+    
+    return WhisperModel(model_name, device=device, compute_type=compute_type)
 
 
 def validate_audio_file(file_path: str) -> bool:
@@ -56,7 +58,8 @@ def transcribe_audio_stream(params: dict) -> Iterable[Dict[str, object]]:
     """Yield transcript segments as they are produced."""
     input_file = params.get("input_file")
     output_file = params.get("output_file")
-    beam_size = params.get("beam_size", 5)
+    beam_size = params.get("beam_size", 5) or get_config("beam_size")
+    vad_filter = params.get("vad_filter", True) or get_config("vad_filter")
     model_name = params.get("model_name") or get_config("model_whisper")
     device = params.get("device") or get_config("device")
 
@@ -70,7 +73,7 @@ def transcribe_audio_stream(params: dict) -> Iterable[Dict[str, object]]:
         )
 
     model = _load_model(model_name, device)
-    segments, _info = model.transcribe(input_file, beam_size=beam_size)
+    segments, _info = model.transcribe(input_file, beam_size=beam_size, vad_filter=vad_filter)
 
     for segment_index, segment in enumerate(segments, start=1):
         line = "[%.2fs -> %.2fs] %s" % (segment.start, segment.end, segment.text)

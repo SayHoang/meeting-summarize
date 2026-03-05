@@ -1,0 +1,30 @@
+Summarize the following project meeting transcript and create a meeting summary that includes the following items:
+
+- Meeting Details
+    - Meeting Title
+    - Project Name (If provided)
+    - Date and Time: Clearly state when the meeting took place.
+    - Attendees: List all participants.
+    - Meeting Purpose: A brief description of the meeting's objective.
+
+- Summary of Discussions:
+    - Key Topics: Highlight the main subjects discussed.
+    - Decisions Made: Outline any decisions or agreements reached.
+    - Challenges/Concerns: Note any issues or concerns raised during the meeting.
+
+- Action Items. Please put the action items into a table format and prioritize them.
+    - Task List: Specific actions that need to be taken.
+    - Responsible Parties: Assign tasks to individuals or teams.
+    - Deadlines: Specify when each action item is due.
+
+- Next Steps:
+    - Follow-Up Meetings: If applicable, mention when the next meeting is scheduled.
+    - Additional Information Needed: Outline any further information required to move forward
+
+- Key Insights/Takeaways:
+    - Summarize the most important points or decisions that are critical for stakeholders to be aware of.
+
+- Attachments/References:
+    - Note any documents or links referenced during the meeting.
+
+Return your final response as well formatted HTML.
