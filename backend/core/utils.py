@@ -12,7 +12,7 @@ def _resolve_path(relative_path: str) -> Path:
 
 
 def _get_repo_root() -> Path:
-    return Path(__file__).resolve().parents[3]
+    return Path(__file__).resolve().parents[2]
 
 
 @lru_cache(maxsize=1)

@@ -5,12 +5,15 @@
   "beam_size": 5,
   "vad_filter": true,
 
+  
+
+
   "input_file": "afjiv.wav",
   "output_dir": "../outputs",
   
   "model_summary": "gemini-3-flash-preview",
   "temperature_summary": 0.3,
-  "top_p_summary": 0.95,
+  "top_p_summary": 0.2,
 
   "meeting_storage_dir": "meeting_storage",
   "live_transcribe_max_lines": 10

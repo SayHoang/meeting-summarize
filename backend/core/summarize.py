@@ -50,7 +50,12 @@ def generate_summary_stream(params: dict) -> Iterable[str]:
         }
     ]
 
-    for chunk in client.models.generate_content_stream(model=model, contents=contents):
+    gen_config = genai.types.GenerateContentConfig(
+        temperature=get_config("temperature_summary"),
+        top_p=get_config("top_p_summary"),
+    )
+
+    for chunk in client.models.generate_content_stream(model=model, contents=contents, config=gen_config):
         text = getattr(chunk, "text", "")
         if text:
             yield text

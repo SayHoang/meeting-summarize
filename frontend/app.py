@@ -89,7 +89,11 @@ def _transcribe_flow(audio_bytes: bytes, original_filename: str) -> None:
                 status_box.empty()
                 has_first_segment = True
             segment_lines.append(segment_line)
-            segments_box.code("\n".join(segment_lines))
+            visible_lines = segment_lines[-max_lines:]
+            segments_box.code(
+                "\n".join(visible_lines),
+                height=box_height,
+            )
 
     try:
         transcribe_service.run_transcribe(
