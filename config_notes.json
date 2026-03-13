@@ -1,0 +1,9 @@
+{
+    "model_whisper": "Tên model faster-whisper (VD: large-v2).",
+    "device": "cpu hoặc cuda. cuda cần GPU setup.",
+    "compute_type": "int8/float16/float32... ảnh hưởng tốc độ/VRAM.",
+    "beam_size": "Beam search size (chất lượng vs tốc độ).",
+    "vad_filter": "Bật/tắt lọc VAD để bỏ đoạn im lặng."
+
+    
+  }

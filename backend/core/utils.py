@@ -21,6 +21,18 @@ def _load_config() -> dict:
     with open(config_path, "r") as f:
         return json.load(f)
 
+def reload_config() -> None:
+    _load_config.cache_clear()
+
+def read_config_file() -> dict:
+    config_path = _get_repo_root() / "config.json"
+    return json.loads(config_path.read_text())
+
+def write_config_file(config: dict) -> None:
+    config_path = _get_repo_root() / "config.json"
+    config_path.write_text(json.dumps(config, indent=2, ensure_ascii=False) + "\n")
+    reload_config()
+
 
 def _coerce_env_value(value: str, template: object) -> object:
     if isinstance(template, bool):

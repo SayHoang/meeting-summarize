@@ -58,7 +58,7 @@ def transcribe_audio_stream(params: dict) -> Iterable[Dict[str, object]]:
     vad_filter = params.get("vad_filter", True) or get_config("vad_filter")
     model_name = params.get("model_name") or get_config("model_whisper")
     device = params.get("device") or get_config("device")
-
+    
     if not input_file or not output_file:
         raise ValueError("input_file and output_file are required.")
 

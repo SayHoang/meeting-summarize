@@ -1,0 +1,58 @@
+{
+    "faster_whisper": {
+      "model_whisper": {
+        "type": "string",
+        "widget": "select",
+        "options": ["tiny", "base", "small", "medium", "large-v2", "large-v3"]
+      },
+
+      "device": {
+        "type": "string",
+        "widget": "radio",
+        "options": ["cpu", "cuda"]
+      },
+
+      "compute_type": {
+        "type": "string",
+        "widget": "select",
+        "options": ["int8", "int8_float16", "float16", "float32"]
+      },
+
+      "beam_size": {
+        "type": "int",
+        "widget": "number",
+        "min": 1,
+        "max": 20,
+        "step": 1
+      },
+
+      "vad_filter": { "type": "bool", "widget": "checkbox" }
+    },
+
+
+    "summarize": {
+      "model_summary": { 
+        "type": "string", 
+        "widget": "select",
+        "options": ["gemini-3-flash-preview", "gemini-3-flash-lite-preview"] 
+      },
+      
+      "temperature_summary": {
+        "type": "float",
+        "widget": "slider",
+        "min": 0.0,
+        "max": 2.0,
+        "step": 0.05
+      },
+
+      "top_p_summary": {
+        "type": "float",
+        "widget": "slider",
+        "min": 0.0,
+        "max": 1.0,
+        "step": 0.05
+      }
+
+
+    }
+  }
