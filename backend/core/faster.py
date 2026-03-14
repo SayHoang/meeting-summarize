@@ -4,7 +4,7 @@ from functools import lru_cache
 from typing import Dict, Iterable
 
 from faster_whisper import WhisperModel
-from utils import get_config
+from utils import get_config, load_prompt
 
 
 SUPPORTED_FORMATS = [".mp3", ".mp4", ".wav", ".m4a", ".mov", ".mkv", ".webm"]
@@ -59,7 +59,7 @@ def transcribe_audio_stream(params: dict) -> Iterable[Dict[str, object]]:
     model_name = params.get("model_name") or get_config("model_whisper")
     device = params.get("device") or get_config("device")
 
-    initial_prompt = params.get("initial_prompt") or get_config("initial_prompt")
+    initial_prompt = params.get("initial_prompt") or load_prompt("prompts/initial_prompt.txt")
     
     if not input_file or not output_file:
         raise ValueError("input_file and output_file are required.")
