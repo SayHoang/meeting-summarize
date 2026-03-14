@@ -58,6 +58,8 @@ def transcribe_audio_stream(params: dict) -> Iterable[Dict[str, object]]:
     vad_filter = params.get("vad_filter", True) or get_config("vad_filter")
     model_name = params.get("model_name") or get_config("model_whisper")
     device = params.get("device") or get_config("device")
+
+    initial_prompt = params.get("initial_prompt") or get_config("initial_prompt")
     
     if not input_file or not output_file:
         raise ValueError("input_file and output_file are required.")
@@ -69,7 +71,12 @@ def transcribe_audio_stream(params: dict) -> Iterable[Dict[str, object]]:
         )
 
     model = _load_model(model_name, device)
-    segments, _info = model.transcribe(input_file, beam_size=beam_size, vad_filter=vad_filter)
+    segments, _info = model.transcribe(
+        input_file, 
+        beam_size=beam_size, 
+        vad_filter=vad_filter,
+        initial_prompt=initial_prompt
+    )
 
     for segment_index, segment in enumerate(segments, start=1):
         line = "[%.2fs -> %.2fs] %s" % (segment.start, segment.end, segment.text)

@@ -26,5 +26,3 @@ Summarize the following project meeting transcript and create a meeting summary 
 
 - Attachments/References:
     - Note any documents or links referenced during the meeting.
-
-Return your final response as well formatted HTML.

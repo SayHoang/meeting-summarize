@@ -1,5 +1,5 @@
 {
-  "model_whisper": "small",
+  "model_whisper": "large-v2",
   "device": "cpu",
   "compute_type": "int8",
   "beam_size": 5,
