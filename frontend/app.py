@@ -221,6 +221,12 @@ def _summarize_from_input(
         _reset_outputs()
 
     st.session_state["is_summarizing"] = True
+
+    st.session_state["summary_text"] = ""
+    st.session_state["summary_edit"] = ""
+    st.session_state["summary_path"] = ""
+    st.session_state["chosen_summary_text"] = ""
+    st.session_state["chosen_summary_path"] = ""
     
     try:
         if transcript_file:
@@ -353,7 +359,7 @@ def main() -> None:
     if st.session_state["summary_text"]:
         st.subheader("Summary")
         st.session_state["summary_edit"] = st.text_area(
-            "Edit summary before export",
+            "Edit summary before export (Please wait 15s after editing)",
             value=st.session_state["summary_edit"],
             height=200,
         )
