@@ -12,8 +12,8 @@ if str(PROJECT_ROOT) not in sys.path:
 if str(CORE_DIR) not in sys.path:
     sys.path.insert(0, str(CORE_DIR))
 
-from backend import paths, storage, summarize_service, transcribe_service
-from backend.types import SummarizeParams, TranscribeParams
+from backend.api import paths, storage, summarize_service, transcribe_service
+from backend.api.types import SummarizeParams, TranscribeParams
 from faster import SUPPORTED_FORMATS
 from utils import get_config
 
@@ -23,6 +23,12 @@ def _init_state() -> None:
     st.session_state.setdefault("transcript_text", "")
     st.session_state.setdefault("summary_text", "")
     st.session_state.setdefault("summary_edit", "")
+    st.session_state.setdefault("summary_1_text", "")
+    st.session_state.setdefault("summary_2_text", "")
+    st.session_state.setdefault("summary_1_model", "")
+    st.session_state.setdefault("summary_2_model", "")
+    st.session_state.setdefault("chosen_summary_text", "")
+    st.session_state.setdefault("chosen_summary_path", "")
     st.session_state.setdefault("transcript_path", "")
     st.session_state.setdefault("summary_path", "")
     st.session_state.setdefault("is_transcribing", False)
@@ -33,6 +39,12 @@ def _reset_outputs() -> None:
     st.session_state["transcript_text"] = ""
     st.session_state["summary_text"] = ""
     st.session_state["summary_edit"] = ""
+    st.session_state["summary_1_text"] = ""
+    st.session_state["summary_2_text"] = ""
+    st.session_state["summary_1_model"] = ""
+    st.session_state["summary_2_model"] = ""
+    st.session_state["chosen_summary_text"] = ""
+    st.session_state["chosen_summary_path"] = ""
     st.session_state["transcript_path"] = ""
     st.session_state["summary_path"] = ""
 
@@ -150,6 +162,56 @@ def _summarize_flow(job_id: str, transcript_path: str) -> None:
         status_box.empty()
 
 
+def _choose_summary(which: int) -> None:
+    job_id = st.session_state.get("job_id")
+    if not job_id:
+        st.error("No active job found. Please summarize again.")
+        return
+
+    if which == 1:
+        chosen_text = st.session_state.get("summary_1_text", "")
+    else:
+        chosen_text = st.session_state.get("summary_2_text", "")
+
+    if not chosen_text:
+        st.warning("Chosen summary is empty.")
+        return
+
+    summary_path = storage.save_summary_text(
+        {"job_id": job_id, "summary_text": chosen_text}
+    )
+
+    st.session_state["summary_text"] = chosen_text
+    st.session_state["summary_edit"] = chosen_text
+    st.session_state["summary_path"] = str(summary_path)
+    st.session_state["chosen_summary_text"] = chosen_text
+    st.session_state["chosen_summary_path"] = str(summary_path)
+
+    st.session_state["summary_1_text"] = ""
+    st.session_state["summary_2_text"] = ""
+
+
+def _dual_summarize_flow(job_id: str, transcript_path: str) -> None:
+    status_box = st.empty()
+    status_box.info("Generating summaries, please wait...")
+
+    try:
+        result = summarize_service.run_dual_summary(
+            SummarizeParams(
+                job_id=job_id,
+                transcript_path=transcript_path,
+                output_path="",
+            )
+        )
+
+        st.session_state["summary_1_text"] = result.summary_1
+        st.session_state["summary_2_text"] = result.summary_2
+        st.session_state["summary_1_model"] = result.model_1 or ""
+        st.session_state["summary_2_model"] = result.model_2 or ""
+    finally:
+        status_box.empty()
+
+
 def _summarize_from_input(
     transcript_text: str | None,
     transcript_file: bytes | None,
@@ -159,6 +221,7 @@ def _summarize_from_input(
         _reset_outputs()
 
     st.session_state["is_summarizing"] = True
+    
     try:
         if transcript_file:
             transcript_text = transcript_file.decode("utf-8", errors="replace")
@@ -173,7 +236,7 @@ def _summarize_from_input(
             )
             st.session_state["transcript_text"] = transcript_text
             st.session_state["transcript_path"] = str(transcript_path)
-            _summarize_flow(job_meta.job_id, str(transcript_path))
+            _dual_summarize_flow(job_meta.job_id, str(transcript_path))
             return
 
         job_id = st.session_state.get("job_id")
@@ -182,7 +245,7 @@ def _summarize_from_input(
             st.warning("Please provide a transcript to summarize.")
             return
 
-        _summarize_flow(job_id, transcript_path)
+        _dual_summarize_flow(job_id, transcript_path)
     finally:
         st.session_state["is_summarizing"] = False
 
@@ -254,6 +317,38 @@ def main() -> None:
                 transcript_file_bytes,
                 transcript_filename,
             )
+
+        if (
+            st.session_state.get("summary_1_text")
+            and st.session_state.get("summary_2_text")
+            and not st.session_state.get("summary_text")
+        ):
+            st.subheader("Compare summaries")
+            col1, col2 = st.columns(2)
+
+            with col1:
+                model_1 = st.session_state.get("summary_1_model") or "Model 1"
+                st.markdown(f"**Summary 1 ({model_1})**")
+                st.text_area(
+                    "Summary 1",
+                    value=st.session_state.get("summary_1_text", ""),
+                    height=250,
+                    key="summary_1_view",
+                )
+                if st.button("Choose this summary", key="choose_summary_1"):
+                    _choose_summary(1)
+
+            with col2:
+                model_2 = st.session_state.get("summary_2_model") or "Model 2"
+                st.markdown(f"**Summary 2 ({model_2})**")
+                st.text_area(
+                    "Summary 2",
+                    value=st.session_state.get("summary_2_text", ""),
+                    height=250,
+                    key="summary_2_view",
+                )
+                if st.button("Choose this summary", key="choose_summary_2"):
+                    _choose_summary(2)
 
     if st.session_state["summary_text"]:
         st.subheader("Summary")
