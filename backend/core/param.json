@@ -31,10 +31,16 @@
 
 
     "summarize": {
-      "model_summary": { 
+      "model_summary_1": { 
         "type": "string", 
         "widget": "select",
         "options": ["gemini-3-flash-preview", "gemini-3-flash-lite-preview"] 
+      },
+
+      "model_summary_2": { 
+        "type": "string", 
+        "widget": "select",
+        "options": ["gpt-4.1-mini", "gpt-4.1", "gpt-4o", "gpt-4o-mini"] 
       },
       
       "temperature_summary": {

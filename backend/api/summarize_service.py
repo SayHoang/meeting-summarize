@@ -4,7 +4,7 @@ from typing import Callable, Optional
 
 from .paths import get_job_dir, get_prompt_override_path
 from .storage import update_meta
-from .types import SummarizeParams
+from .types import DualSummaryResult, SummarizeParams
 
 
 def _ensure_core_on_path() -> None:
@@ -50,3 +50,35 @@ def run_summary(
         }
     )
     return output_path
+
+
+def run_dual_summary(params: SummarizeParams) -> DualSummaryResult:
+    _ensure_core_on_path()
+    from summarize import generate_summary_stream
+    from summarize_openai import generate_summary_text
+    from utils import get_config
+
+    prompt_text = params.prompt_text or _load_prompt_override()
+
+    summary_1 = "".join(
+        generate_summary_stream(
+            {
+                "transcript_path": params.transcript_path,
+                "prompt_text": prompt_text,
+            }
+        )
+    )
+
+    summary_2 = generate_summary_text(
+        {
+            "transcript_path": params.transcript_path,
+            "prompt_text": prompt_text,
+        }
+    )
+
+    return DualSummaryResult(
+        summary_1=summary_1,
+        summary_2=summary_2,
+        model_1=get_config("model_summary_1"),
+        model_2=get_config("model_summary_2"),
+    )

@@ -1,45 +1,25 @@
-import os
-from datetime import datetime
 from typing import Callable, Iterable, Optional
 
 from google import genai
-from utils import get_config, load_key, load_prompt
-
-def generate_output_filename(input_file: str, output_dir: str) -> str:
-    file_name = os.path.splitext(os.path.basename(input_file))[0]
-    timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
-    output_file = f"summary_{timestamp}.txt"
-    return os.path.join(output_dir, output_file)
-
-def _build_prompt(prompt_text: str, transcript_text: str) -> str:
-    return f"{prompt_text}:\n\n{transcript_text}"
-
+from utils import (
+    get_config,
+    load_key,
+    load_prompt,
+    _build_prompt,
+    _load_transcript_text,
+)
 
 def _load_default_prompt() -> str:
     return load_prompt("prompts/summary_prompt.txt")
 
-
-def _load_transcript_text(params: dict) -> str:
-    transcript_text = params.get("transcript_text")
-    transcript_path = params.get("transcript_path")
-
-    if transcript_text:
-        return transcript_text
-
-    if transcript_path:
-        with open(transcript_path, "r") as f:
-            return f.read()
-
-    raise ValueError("transcript_text or transcript_path is required.")
-
-
 def generate_summary_stream(params: dict) -> Iterable[str]:
+    """Generate summary stream for model 1."""
     api_key = load_key("GEMINI_API_KEY")
     if not api_key:
         raise ValueError("GEMINI_API_KEY is required.")
 
     client = genai.Client(api_key=api_key)
-    model = params.get("model_name") or get_config("model_summary")
+    model = params.get("model_name") or get_config("model_summary_1")
     prompt_text = params.get("prompt_text") or _load_default_prompt()
     transcript_text = _load_transcript_text(params)
 
@@ -50,13 +30,19 @@ def generate_summary_stream(params: dict) -> Iterable[str]:
         }
     ]
 
-    gen_config = genai.types.GenerateContentConfig(
+    model_config = genai.types.GenerateContentConfig(
         temperature=get_config("temperature_summary"),
         top_p=get_config("top_p_summary"),
     )
 
-    for chunk in client.models.generate_content_stream(model=model, contents=contents, config=gen_config):
-        text = getattr(chunk, "text", "")
+    stream = client.models.generate_content_stream(
+        model=model,
+        contents=contents,
+        config=model_config,
+    )
+
+    for chunk in stream:
+        text = getattr(chunk, "text", None)
         if text:
             yield text
 

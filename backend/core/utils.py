@@ -3,6 +3,7 @@ import os
 from functools import lru_cache
 from pathlib import Path
 from dotenv import load_dotenv
+from datetime import datetime
 
 load_dotenv()
 
@@ -66,6 +67,21 @@ def get_config(key: str) -> str:
         return env_value
     return config.get(key)
 
-# # Test
-# print(get_config("model_whisper"))
-# print(load_key("HF_TOKEN"))
+
+# Summarize Utils
+def _build_prompt(prompt_text: str, transcript_text: str) -> str:
+    return f"{prompt_text}:\n\n{transcript_text}"
+
+def _load_transcript_text(params: dict) -> str:
+    transcript_text = params.get("transcript_text")
+    transcript_path = params.get("transcript_path")
+    if transcript_text:
+        return transcript_text
+    if transcript_path:
+        return Path(transcript_path).read_text()
+    raise ValueError("transcript_text or transcript_path is required.")
+
+def _generate_output_filename(input_file: str, output_dir: str) -> str:
+    file_name = Path(input_file).stem
+    timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+    return str(Path(output_dir) / f"summary_{timestamp}.txt")

@@ -43,6 +43,13 @@ class SummarizeParams(BaseModel):
     model_name: Optional[str] = None
 
 
+class DualSummaryResult(BaseModel):
+    summary_1: str
+    summary_2: str
+    model_1: Optional[str] = None
+    model_2: Optional[str] = None
+
+
 class ProgressEvent(BaseModel):
     stage: str
     percent: int
