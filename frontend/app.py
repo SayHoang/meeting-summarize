@@ -12,13 +12,16 @@ if str(PROJECT_ROOT) not in sys.path:
 if str(CORE_DIR) not in sys.path:
     sys.path.insert(0, str(CORE_DIR))
 
-from backend.api import paths, storage, summarize_service, transcribe_service
-from backend.api.types import SummarizeParams, TranscribeParams
+from backend.api import paths, storage, summarize_service, task_service, transcribe_service
+from backend.api.types import CreateTaskWebhookParams, SummarizeParams, TranscribeParams
 from faster import SUPPORTED_FORMATS
 from utils import get_config
 
 
 def _init_state() -> None:
+    st.session_state.setdefault("app_mode", "Transcribe")
+    st.session_state.setdefault("switch_to_summarize", False)
+    st.session_state.setdefault("summarize_ui_variant", "full")
     st.session_state.setdefault("job_id", None)
     st.session_state.setdefault("transcript_text", "")
     st.session_state.setdefault("summary_text", "")
@@ -33,6 +36,9 @@ def _init_state() -> None:
     st.session_state.setdefault("summary_path", "")
     st.session_state.setdefault("is_transcribing", False)
     st.session_state.setdefault("is_summarizing", False)
+    st.session_state.setdefault("summarize_source", "")
+    st.session_state.setdefault("trigger_summarize_now", False)
+    st.session_state.setdefault("manual_transcript_input", "")
 
 
 def _reset_outputs() -> None:
@@ -213,47 +219,88 @@ def _dual_summarize_flow(job_id: str, transcript_path: str) -> None:
 
 
 def _summarize_from_input(
-    transcript_text: str | None,
+    manual_transcript_text: str | None,
     transcript_file: bytes | None,
     transcript_filename: str | None,
 ) -> None:
     if st.session_state.get("is_summarizing"):
-        _reset_outputs()
+        return
 
     st.session_state["is_summarizing"] = True
-
     st.session_state["summary_text"] = ""
     st.session_state["summary_edit"] = ""
     st.session_state["summary_path"] = ""
     st.session_state["chosen_summary_text"] = ""
     st.session_state["chosen_summary_path"] = ""
-    
+
     try:
+        decoded_transcript = ""
         if transcript_file:
-            transcript_text = transcript_file.decode("utf-8", errors="replace")
+            decoded_transcript = transcript_file.decode("utf-8", errors="replace").strip()
 
-        if transcript_text:
-            job_meta = storage.create_job(
-                {"original_filename": transcript_filename or "transcript.txt"}
-            )
-            st.session_state["job_id"] = job_meta.job_id
-            transcript_path = storage.save_transcript_text(
-                {"job_id": job_meta.job_id, "transcript_text": transcript_text}
-            )
-            st.session_state["transcript_text"] = transcript_text
-            st.session_state["transcript_path"] = str(transcript_path)
-            _dual_summarize_flow(job_meta.job_id, str(transcript_path))
+        if decoded_transcript:
+            st.session_state["summarize_source"] = "manual_file"
+            _summarize_manual_input(decoded_transcript, transcript_filename or "transcript.txt")
             return
 
-        job_id = st.session_state.get("job_id")
-        transcript_path = st.session_state.get("transcript_path")
-        if not job_id or not transcript_path:
-            st.warning("Please provide a transcript to summarize.")
+        manual_text = (manual_transcript_text or "").strip()
+        if manual_text:
+            st.session_state["summarize_source"] = "manual_text"
+            _summarize_manual_input(manual_text, transcript_filename or "transcript.txt")
             return
 
-        _dual_summarize_flow(job_id, transcript_path)
+        st.session_state["summarize_source"] = "transcribe_current"
+        _summarize_existing_job()
     finally:
         st.session_state["is_summarizing"] = False
+
+
+def _summarize_manual_input(transcript_text: str, transcript_filename: str) -> None:
+    if not transcript_text.strip():
+        st.warning("Please provide a transcript to summarize.")
+        return
+
+    job_meta = storage.create_job({"original_filename": transcript_filename})
+    st.session_state["job_id"] = job_meta.job_id
+    transcript_path = storage.save_transcript_text(
+        {"job_id": job_meta.job_id, "transcript_text": transcript_text}
+    )
+    st.session_state["transcript_text"] = transcript_text
+    st.session_state["transcript_path"] = str(transcript_path)
+    _dual_summarize_flow(job_meta.job_id, str(transcript_path))
+
+
+def _summarize_existing_job() -> None:
+    job_id = st.session_state.get("job_id")
+    transcript_path = st.session_state.get("transcript_path")
+    if not job_id or not transcript_path:
+        st.warning("No transcribe job found. Please transcribe or provide manual transcript.")
+        return
+
+    _dual_summarize_flow(job_id, transcript_path)
+
+
+def _create_task_flow() -> None:
+    summary_text = (st.session_state.get("summary_edit") or "").strip()
+    if not summary_text:
+        st.warning("Summary is empty. Please edit or generate summary before creating task.")
+        return
+
+    result = task_service.send_create_task_webhook(
+        CreateTaskWebhookParams(
+            summary_text=summary_text,
+            job_id=st.session_state.get("job_id"),
+        )
+    )
+
+    if result.ok:
+        st.success(f"Create Task webhook sent successfully (HTTP {result.status_code}).")
+    else:
+        st.error(f"Create Task failed (HTTP {result.status_code}): {result.message}")
+
+    if result.raw_response is not None:
+        st.write("Webhook response:")
+        st.write(result.raw_response)
 
 
 def main() -> None:
@@ -263,7 +310,25 @@ def main() -> None:
     st.title("Meeting Transcribe & Summarize")
     st.caption("Upload audio, transcribe with progress, then summarize and export.")
 
-    mode = st.radio("Mode", ["Transcribe", "Summarize"], horizontal=True)
+    if st.session_state.get("switch_to_summarize"):
+        st.session_state["app_mode"] = "Summarize"
+        st.session_state["switch_to_summarize"] = False
+
+    mode_options = ["Transcribe", "Summarize"]
+    current_mode = st.session_state.get("app_mode", "Transcribe")
+    if current_mode not in mode_options:
+        current_mode = "Transcribe"
+
+    mode = st.radio(
+        "Mode",
+        mode_options,
+        horizontal=True,
+        index=mode_options.index(current_mode),
+    )
+    if mode != current_mode and mode == "Summarize":
+        # User switched via radio, so show full summarize inputs.
+        st.session_state["summarize_ui_variant"] = "full"
+    st.session_state["app_mode"] = mode
 
     if mode == "Transcribe":
         allowed_types = [ext.lstrip(".") for ext in SUPPORTED_FORMATS]
@@ -293,23 +358,58 @@ def main() -> None:
                     height=220,
                 )
 
-            st.download_button(
-                "Export Transcribe",
-                data=st.session_state["transcript_text"],
-                file_name=Path(st.session_state["transcript_path"]).name,
-            )
+            col_export, col_summarize = st.columns(2)
+            with col_export:
+                st.download_button(
+                    "Export Transcribe",
+                    data=st.session_state["transcript_text"],
+                    file_name=Path(st.session_state["transcript_path"]).name,
+                )
+            with col_summarize:
+                if st.button("Summarize", key="quick_summarize_button", type="primary"):
+                    st.session_state["switch_to_summarize"] = True
+                    st.session_state["summarize_ui_variant"] = "minimal"
+                    st.session_state["summarize_source"] = "transcribe_current"
+                    st.session_state["trigger_summarize_now"] = True
+                    st.session_state["manual_transcript_input"] = ""
+                    st.rerun()
 
     if mode == "Summarize":
         st.subheader("Summarize a transcript")
-        transcript_upload = st.file_uploader(
-            "Upload transcript (.txt)", type=["txt"], accept_multiple_files=False
+
+        has_transcribe_job = bool(
+            st.session_state.get("job_id")
+            and st.session_state.get("transcript_path")
+            and st.session_state.get("transcript_text")
         )
-        default_transcript = st.session_state.get("transcript_text") or ""
-        transcript_text = st.text_area(
-            "Paste transcript text",
-            value=default_transcript,
-            height=200,
+        if has_transcribe_job:
+            st.caption("Detected transcript from current transcribe job (read-only).")
+            st.text_area(
+                "Transcript from transcribe job",
+                value=st.session_state.get("transcript_text") or "",
+                height=160,
+                disabled=True,
+            )
+        else:
+            st.caption("No transcribe job detected. Provide transcript manually.")
+
+        is_minimal_summarize_ui = bool(
+            has_transcribe_job
+            and st.session_state.get("summarize_ui_variant") == "minimal"
+            and st.session_state.get("summarize_source") == "transcribe_current"
         )
+
+        transcript_upload = None
+        manual_transcript_text = ""
+        if not is_minimal_summarize_ui:
+            transcript_upload = st.file_uploader(
+                "Upload transcript (.txt)", type=["txt"], accept_multiple_files=False
+            )
+            manual_transcript_text = st.text_area(
+                "Paste transcript text (optional for manual mode)",
+                key="manual_transcript_input",
+                height=200,
+            )
 
         if st.button("Summarize", type="primary"):
             transcript_file_bytes = (
@@ -319,10 +419,15 @@ def main() -> None:
                 transcript_upload.name if transcript_upload else None
             )
             _summarize_from_input(
-                transcript_text.strip() or None,
+                manual_transcript_text.strip() or None,
                 transcript_file_bytes,
                 transcript_filename,
             )
+
+        if st.session_state.get("trigger_summarize_now"):
+            st.session_state["trigger_summarize_now"] = False
+            st.session_state["summarize_source"] = "transcribe_current"
+            _summarize_existing_job()
 
         if (
             st.session_state.get("summary_1_text")
@@ -368,6 +473,8 @@ def main() -> None:
             data=st.session_state["summary_edit"],
             file_name=Path(st.session_state["summary_path"]).name,
         )
+        if st.button("Create Task", key="create_task_button", type="primary"):
+            _create_task_flow()
 
 
 if __name__ == "__main__":

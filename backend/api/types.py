@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from datetime import datetime, timezone
-from typing import Optional
+from typing import Any, Optional
 
 from pydantic import BaseModel, Field
 
@@ -54,3 +54,17 @@ class ProgressEvent(BaseModel):
     stage: str
     percent: int
     message: str
+
+
+class CreateTaskWebhookParams(BaseModel):
+    summary_text: str
+    job_id: Optional[str] = None
+    webhook_url: Optional[str] = None
+    timeout_seconds: float = 10.0
+
+
+class CreateTaskWebhookResult(BaseModel):
+    ok: bool
+    status_code: int
+    message: str
+    raw_response: Optional[Any] = None

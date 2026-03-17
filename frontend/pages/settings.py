@@ -13,7 +13,7 @@ if str(PROJECT_ROOT) not in sys.path:
 if str(CORE_DIR) not in sys.path:
     sys.path.insert(0, str(CORE_DIR))
 
-from backend import storage, paths
+from backend.api import storage, paths
 from utils import load_prompt, read_config_file, write_config_file
 
 

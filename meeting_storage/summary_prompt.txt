@@ -23,7 +23,7 @@ Output Format:
         Status/Answer: [Answer provided or "Pending"]
 
 ## 4. Next Actions & Assignments
-| Action Item | Assigned To (Role/Name) | Deadline |
-|-------------|-------------------------|----------|
+| Action Item | Acceptance Criteria | Priority | T-shirt Size | Kanban-Tag | Assigned To (Role/Name) | Due |
+|-------------|-------------------------|----------|------------------------|------------------------|----------|
 | [e.g., Design API Schema] | [e.g., Backend Developer] | [Date/TBD] |
 *(Note: TBD - To be Decided)*
