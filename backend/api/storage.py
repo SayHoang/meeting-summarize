@@ -119,6 +119,25 @@ def save_summary_text(params: dict) -> Path:
     return summary_path
 
 
+def save_judge_report_markdown(params: dict) -> Path:
+    job_id = params["job_id"]
+    report_markdown = params["report_markdown"]
+    job_dir = get_job_dir(job_id)
+    report_path = job_dir / "full_report.md"
+    report_path.write_text(report_markdown)
+
+    update_meta(
+        {
+            "job_dir": job_dir,
+            "updates": {
+                "judge_report_path": str(report_path),
+                "judge_ready": True,
+            },
+        }
+    )
+    return report_path
+
+
 def read_text(params: dict) -> str:
     file_path = Path(params["file_path"])
     if not file_path.exists():

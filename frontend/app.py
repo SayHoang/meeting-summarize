@@ -30,6 +30,9 @@ def _init_state() -> None:
     st.session_state.setdefault("summary_2_text", "")
     st.session_state.setdefault("summary_1_model", "")
     st.session_state.setdefault("summary_2_model", "")
+    st.session_state.setdefault("judge_result", None)
+    st.session_state.setdefault("judge_report_markdown", "")
+    st.session_state.setdefault("judge_report_path", "")
     st.session_state.setdefault("chosen_summary_text", "")
     st.session_state.setdefault("chosen_summary_path", "")
     st.session_state.setdefault("transcript_path", "")
@@ -49,6 +52,9 @@ def _reset_outputs() -> None:
     st.session_state["summary_2_text"] = ""
     st.session_state["summary_1_model"] = ""
     st.session_state["summary_2_model"] = ""
+    st.session_state["judge_result"] = None
+    st.session_state["judge_report_markdown"] = ""
+    st.session_state["judge_report_path"] = ""
     st.session_state["chosen_summary_text"] = ""
     st.session_state["chosen_summary_path"] = ""
     st.session_state["transcript_path"] = ""
@@ -214,6 +220,17 @@ def _dual_summarize_flow(job_id: str, transcript_path: str) -> None:
         st.session_state["summary_2_text"] = result.summary_2
         st.session_state["summary_1_model"] = result.model_1 or ""
         st.session_state["summary_2_model"] = result.model_2 or ""
+        if result.judge_result:
+            judge_result = result.judge_result.model_dump()
+            st.session_state["judge_result"] = judge_result
+            st.session_state["judge_report_markdown"] = (
+                judge_result.get("report_markdown") or ""
+            )
+            st.session_state["judge_report_path"] = judge_result.get("report_path") or ""
+        else:
+            st.session_state["judge_result"] = None
+            st.session_state["judge_report_markdown"] = ""
+            st.session_state["judge_report_path"] = ""
     finally:
         status_box.empty()
 
@@ -435,6 +452,55 @@ def main() -> None:
             and not st.session_state.get("summary_text")
         ):
             st.subheader("Compare summaries")
+            judge_result = st.session_state.get("judge_result") or {}
+            if judge_result:
+                judge_error = judge_result.get("error_message")
+                recommended_summary = judge_result.get("recommended_summary")
+                if judge_error:
+                    st.warning(f"Judge unavailable: {judge_error}")
+                elif recommended_summary in {1, 2}:
+                    st.success(f"Judge recommends: Summary {recommended_summary}")
+                else:
+                    st.info("Judge result: no strong winner (tie).")
+
+                criteria = judge_result.get("criteria") or []
+                if criteria:
+                    st.markdown("**Judge criteria scores**")
+                    for criterion in criteria:
+                        criterion_line = (
+                            f"- {criterion.get('display_name', criterion.get('name', 'criterion'))}: "
+                            f"S1={criterion.get('summary_1_score', '-')}, "
+                            f"S2={criterion.get('summary_2_score', '-')}, "
+                            f"direction={criterion.get('direction', 'higher_is_better')}"
+                        )
+                        reason = str(criterion.get("reason") or "").strip()
+                        if reason:
+                            criterion_line += f", note={reason}"
+                        st.markdown(criterion_line)
+
+                total_score_1 = judge_result.get("total_score_1")
+                total_score_2 = judge_result.get("total_score_2")
+                if total_score_1 is not None and total_score_2 is not None:
+                    st.markdown(
+                        f"**Judge total** ({judge_result.get('scoring_mode', 'simple_average')}): "
+                        f"Summary 1 = `{float(total_score_1):.2f}`, "
+                        f"Summary 2 = `{float(total_score_2):.2f}`"
+                    )
+
+                if any(
+                    criterion.get("direction") == "lower_is_better"
+                    for criterion in criteria
+                    if isinstance(criterion, dict)
+                ):
+                    st.caption(
+                        "Criteria with lower_is_better are direction-normalized internally for total scoring."
+                    )
+
+                report_markdown = st.session_state.get("judge_report_markdown") or ""
+                if report_markdown:
+                    with st.expander("Judge full report", expanded=False):
+                        st.markdown(report_markdown)
+
             col1, col2 = st.columns(2)
 
             with col1:

@@ -1,9 +1,23 @@
 {
-    "model_whisper": "Tên model faster-whisper (VD: large-v2).",
-    "device": "cpu hoặc cuda. cuda cần GPU setup.",
-    "compute_type": "int8/float16/float32... ảnh hưởng tốc độ/VRAM.",
-    "beam_size": "Beam search size (chất lượng vs tốc độ).",
-    "vad_filter": "Bật/tắt lọc VAD để bỏ đoạn im lặng."
-
-    
+  "model_whisper": "Tên model faster-whisper (VD: large-v2).",
+  "device": "cpu hoặc cuda. cuda cần GPU setup.",
+  "compute_type": "int8/float16/float32... ảnh hưởng tốc độ/VRAM.",
+  "beam_size": "Beam search size (chất lượng vs tốc độ).",
+  "vad_filter": "Bật/tắt lọc VAD để bỏ đoạn im lặng.",
+  "model_judge": "Model Claude dùng cho Judge (VD: anthropic-claude-3-5-sonnet-20240620).",
+  "judge": {
+    "enabled": "Bật/tắt LLM Judge.",
+    "provider": "Nhà cung cấp Judge, hiện hỗ trợ anthropic.",
+    "scoring_mode": "simple_average hoặc weighted_average.",
+    "scale_min": "Điểm thấp nhất cho mỗi tiêu chí (thường là 1).",
+    "scale_max": "Điểm cao nhất cho mỗi tiêu chí (thường là 5).",
+    "criteria": [
+      {
+        "name": "Tên định danh tiêu chí (snake_case, ví dụ accuracy, risk).",
+        "display_name": "Tên hiển thị trong UI/report.",
+        "direction": "higher_is_better hoặc lower_is_better.",
+        "weight": "Tuỳ chọn, dùng khi scoring_mode=weighted_average."
+      }
+    ]
   }
+}

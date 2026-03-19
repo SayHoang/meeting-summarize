@@ -11,5 +11,30 @@
   "temperature_summary": 0.15,
   "top_p_summary": 0.3,
   "meeting_storage_dir": "meeting_storage",
-  "live_transcribe_max_lines": 10
+  "live_transcribe_max_lines": 10,
+  "model_judge": "anthropic-claude-3-5-sonnet-20240620",
+  "judge": {
+    "enabled": true,
+    "provider": "anthropic",
+    "scoring_mode": "simple_average",
+    "scale_min": 1,
+    "scale_max": 5,
+    "criteria": [
+      {
+        "name": "accuracy",
+        "display_name": "Accuracy",
+        "direction": "higher_is_better"
+      },
+      {
+        "name": "completeness",
+        "display_name": "Completeness",
+        "direction": "higher_is_better"
+      },
+      {
+        "name": "actionability",
+        "display_name": "Actionability",
+        "direction": "higher_is_better"
+      }
+    ]
+  }
 }

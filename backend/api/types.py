@@ -19,8 +19,10 @@ class JobMeta(BaseModel):
     input_path: Optional[str] = None
     transcript_path: Optional[str] = None
     summary_path: Optional[str] = None
+    judge_report_path: Optional[str] = None
     transcript_ready: bool = False
     summary_ready: bool = False
+    judge_ready: bool = False
     progress_transcribe: int = 0
     progress_summary: int = 0
     error_message: Optional[str] = None
@@ -43,11 +45,41 @@ class SummarizeParams(BaseModel):
     model_name: Optional[str] = None
 
 
+class JudgeCriterionScore(BaseModel):
+    name: str
+    display_name: str
+    direction: str
+    weight: float = 1.0
+    summary_1_score: int
+    summary_2_score: int
+    summary_1_adjusted: float
+    summary_2_adjusted: float
+    reason: str = ""
+
+
+class JudgeResult(BaseModel):
+    enabled: bool = True
+    provider: str
+    model: str
+    scoring_mode: str
+    scale_min: int
+    scale_max: int
+    criteria: list[JudgeCriterionScore] = Field(default_factory=list)
+    total_score_1: float
+    total_score_2: float
+    recommended_summary: Optional[int] = None
+    overall_rationale: str = ""
+    report_markdown: str = ""
+    report_path: Optional[str] = None
+    error_message: Optional[str] = None
+
+
 class DualSummaryResult(BaseModel):
     summary_1: str
     summary_2: str
     model_1: Optional[str] = None
     model_2: Optional[str] = None
+    judge_result: Optional[JudgeResult] = None
 
 
 class ProgressEvent(BaseModel):
