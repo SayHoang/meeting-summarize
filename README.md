@@ -2,28 +2,16 @@
 
 ## Installation
 
-### Install Whisper
+### Install faster-whisper
 
-```
-pip install git+https://github.com/openai/whisper.git
-```
-
-### Install ffmpeg
-
-```
-sudo apt update && sudo apt install ffmpeg
+```bash
+pip install -r requirements.txt
 ```
 
-### Install setuptool-rust
+### Install ffmpeg (required for audio decoding)
 
-```
-pip install setuptools-rust
-```
-
-### Install pyannote.audio
-
-```
-pip install pyannote.audio
+```bash
+sudo apt update && sudo apt install -y ffmpeg
 ```
 
 
@@ -40,36 +28,98 @@ pip install pyannote.audio
 | large  |   1550 M   |        N/A         |      `large`       |    ~10 GB     |       1x       |
 | turbo  |   809 M    |        N/A         |      `turbo`       |     ~6 GB     |      ~8x       |
 
-## 🛠️ Development
+## Configuration
 
-### Run requirement
+### Environment Variables
 
+Tạo file `.env` từ `.env.sample`:
+
+```bash
+cp .env.sample .env
 ```
+
+Các biến tối thiểu để chạy đầy đủ:
+
+- `GEMINI_API_KEY`
+- `OPENAI_API_KEY`
+- `ANTHROPIC_API_KEY`
+- `N8N_WEBHOOK_URL`
+
+### LLM Judge (criteria động)
+
+Toàn bộ cấu hình Judge nằm trong `config.json`:
+
+- `model_judge`
+- `judge.enabled`
+- `judge.scoring_mode`
+- `judge.scale_min`, `judge.scale_max`
+- `judge.criteria[]` (`name`, `display_name`, `direction`, `weight`)
+
+Hướng dẫn chi tiết cách thêm tiêu chí mới (ví dụ `risk`), dùng weighted/simple average, và vị trí output report:
+
+- [LLM Judge Configuration Guide](docs/llm_judge_guide.md)
+
+## Run Locally
+
+### Install dependencies
+
+```bash
 pip install -r requirements.txt
 ```
 
-### Streamlit Meeting UI
+### Start Streamlit (frontend + backend modules)
 
-```
+```bash
 streamlit run frontend/app.py
 ```
 
-### Project Structure
+Ứng dụng chạy tại: `http://localhost:8501`
 
+## Run Full Stack with Docker Compose
+
+Compose file chạy:
+
+- Streamlit app (`frontend` + `backend` Python modules)
+- n8n
+- PostgreSQL cho n8n
+
+### Start all services
+
+```bash
+docker compose up -d --build
 ```
-KLTN/
-│
-├── backend/
-│   ├── core/           # Transcribe/summarize core
-│   ├── storage.py      # Filesystem job storage
-│   ├── paths.py        # Paths for storage
-│   ├── types.py        # Pydantic types
-│   ├── transcribe_service.py
-│   └── summarize_service.py
-│
-├── frontend/
-│   ├── app.py          # Streamlit UI
-│   └── pages/          # History & Settings
-│
-├── meeting_storage/    # Stored jobs (audio/transcript/summary)
 
+### Service URLs
+
+- Streamlit: `http://localhost:8501`
+- n8n: `http://localhost:5678`
+- PostgreSQL: `localhost:5432`
+
+### Stop all services
+
+```bash
+docker compose down
+```
+
+## Project Structure (updated)
+
+```text
+kltn/
+├── backend/
+│   ├── api/
+│   │   ├── summarize_service.py
+│   │   ├── transcribe_service.py
+│   │   ├── storage.py
+│   │   └── types.py
+│   └── core/
+│       ├── summarize.py
+│       ├── summarize_openai.py
+│       └── judge.py
+├── frontend/
+│   └── app.py
+├── docs/
+│   └── llm_judge_guide.md
+├── meeting_storage/
+├── config.json
+└── docker-compose.yml
+```
