@@ -6,6 +6,8 @@ from .paths import get_job_dir, get_prompt_override_path
 from .storage import save_judge_report_markdown, update_meta
 from .types import DualSummaryResult, SummarizeParams
 
+_TEXT_ENCODING = "utf-8"
+
 
 def _ensure_core_on_path() -> None:
     core_dir = Path(__file__).resolve().parents[1] / "core"
@@ -16,7 +18,7 @@ def _ensure_core_on_path() -> None:
 def _load_prompt_override() -> Optional[str]:
     prompt_path = get_prompt_override_path()
     if prompt_path.exists():
-        return prompt_path.read_text()
+        return prompt_path.read_text(encoding=_TEXT_ENCODING)
     return None
 
 

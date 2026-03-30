@@ -17,6 +17,8 @@ from backend.api.types import CreateTaskWebhookParams, SummarizeParams, Transcri
 from faster import SUPPORTED_FORMATS
 from utils import get_config
 
+_TEXT_ENCODING = "utf-8"
+
 
 def _init_state() -> None:
     st.session_state.setdefault("app_mode", "Transcribe")
@@ -131,7 +133,7 @@ def _transcribe_flow(audio_bytes: bytes, original_filename: str) -> None:
             on_segment=_on_segment,
         )
 
-        transcript_text = output_path.read_text()
+        transcript_text = output_path.read_text(encoding=_TEXT_ENCODING)
         st.session_state["transcript_text"] = transcript_text
         st.session_state["transcript_path"] = str(output_path)
     finally:
@@ -167,7 +169,7 @@ def _summarize_flow(job_id: str, transcript_path: str) -> None:
             on_chunk=_on_chunk,
         )
 
-        st.session_state["summary_text"] = output_path.read_text()
+        st.session_state["summary_text"] = output_path.read_text(encoding=_TEXT_ENCODING)
         st.session_state["summary_edit"] = st.session_state["summary_text"]
         st.session_state["summary_path"] = str(output_path)
     finally:

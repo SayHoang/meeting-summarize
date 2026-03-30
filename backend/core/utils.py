@@ -7,6 +7,9 @@ from datetime import datetime
 
 load_dotenv()
 
+_TEXT_ENCODING = "utf-8"
+
+
 def _resolve_path(relative_path: str) -> Path:
     base_dir = Path(__file__).resolve().parent
     return (base_dir / relative_path).resolve()
@@ -19,7 +22,7 @@ def _get_repo_root() -> Path:
 @lru_cache(maxsize=1)
 def _load_config() -> dict:
     config_path = _get_repo_root() / "config.json"
-    with open(config_path, "r") as f:
+    with open(config_path, "r", encoding=_TEXT_ENCODING) as f:
         return json.load(f)
 
 def reload_config() -> None:
@@ -27,11 +30,14 @@ def reload_config() -> None:
 
 def read_config_file() -> dict:
     config_path = _get_repo_root() / "config.json"
-    return json.loads(config_path.read_text())
+    return json.loads(config_path.read_text(encoding=_TEXT_ENCODING))
 
 def write_config_file(config: dict) -> None:
     config_path = _get_repo_root() / "config.json"
-    config_path.write_text(json.dumps(config, indent=2, ensure_ascii=False) + "\n")
+    config_path.write_text(
+        json.dumps(config, indent=2, ensure_ascii=False) + "\n",
+        encoding=_TEXT_ENCODING,
+    )
     reload_config()
 
 
@@ -48,7 +54,7 @@ def _coerce_env_value(value: str, template: object) -> object:
 def load_prompt(relative_path: str) -> str:
     """Load a prompt relative to the src/ directory."""
     prompt_path = _resolve_path(relative_path)
-    with open(prompt_path, "r") as f:
+    with open(prompt_path, "r", encoding=_TEXT_ENCODING) as f:
         return f.read()
 
 def load_key(key: str) -> str:
@@ -78,7 +84,7 @@ def _load_transcript_text(params: dict) -> str:
     if transcript_text:
         return transcript_text
     if transcript_path:
-        return Path(transcript_path).read_text()
+        return Path(transcript_path).read_text(encoding=_TEXT_ENCODING)
     raise ValueError("transcript_text or transcript_path is required.")
 
 def _generate_output_filename(input_file: str, output_dir: str) -> str:

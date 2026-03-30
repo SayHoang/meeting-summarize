@@ -16,6 +16,8 @@ if str(CORE_DIR) not in sys.path:
 from backend.api import storage, paths
 from utils import load_prompt, read_config_file, write_config_file
 
+_TEXT_ENCODING = "utf-8"
+
 
 def _load_default_prompt() -> str:
     return load_prompt("prompts/summary_prompt.txt")
@@ -29,7 +31,7 @@ def _read_param_spec() -> dict:
     if not spec_path.exists():
         return {}
     try:
-        loaded = json.loads(spec_path.read_text())
+        loaded = json.loads(spec_path.read_text(encoding=_TEXT_ENCODING))
         return loaded if isinstance(loaded, dict) else {}
     except Exception:
         return {}
@@ -42,12 +44,15 @@ def _read_notes() -> dict:
     if not notes_path.exists():
         return {}
     try:
-        return json.loads(notes_path.read_text())
+        return json.loads(notes_path.read_text(encoding=_TEXT_ENCODING))
     except Exception:
         return {}
 
 def _write_notes(notes: dict) -> None:
-    _notes_path().write_text(json.dumps(notes, indent=2, ensure_ascii=False) + "\n")
+    _notes_path().write_text(
+        json.dumps(notes, indent=2, ensure_ascii=False) + "\n",
+        encoding=_TEXT_ENCODING,
+    )
 
 def _ui_options_path() -> Path:
     # Store user-editable UI options outside repo root (meeting_storage/)
@@ -81,7 +86,7 @@ def _read_ui_options() -> dict:
     if not options_path.exists():
         return _default_ui_options()
     try:
-        loaded = json.loads(options_path.read_text())
+        loaded = json.loads(options_path.read_text(encoding=_TEXT_ENCODING))
         if isinstance(loaded, dict):
             return {**_default_ui_options(), **loaded}
     except Exception:
@@ -90,7 +95,8 @@ def _read_ui_options() -> dict:
 
 def _write_ui_options(ui_options: dict) -> None:
     _ui_options_path().write_text(
-        json.dumps(ui_options, indent=2, ensure_ascii=False) + "\n"
+        json.dumps(ui_options, indent=2, ensure_ascii=False) + "\n",
+        encoding=_TEXT_ENCODING,
     )
 
 def _csv_to_list(value: str) -> list[str]:

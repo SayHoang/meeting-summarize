@@ -94,7 +94,7 @@ def transcribe_to_file(params: dict) -> str:
     if not output_file:
         raise ValueError("output_file is required.")
 
-    with open(output_file, "w") as f:
+    with open(output_file, "w", encoding="utf-8") as f:
         for event in transcribe_audio_stream(params):
             f.write(f"{event['segment_line']}\n")
 

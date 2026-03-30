@@ -10,6 +10,8 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from backend.api import storage
 
+_TEXT_ENCODING = "utf-8"
+
 
 def main() -> None:
     st.set_page_config(page_title="Meeting History", layout="wide")
@@ -25,7 +27,7 @@ def main() -> None:
             st.write(job.model_dump())
 
             if job.transcript_path and Path(job.transcript_path).exists():
-                transcript_text = Path(job.transcript_path).read_text()
+                transcript_text = Path(job.transcript_path).read_text(encoding=_TEXT_ENCODING)
                 st.download_button(
                     "Download Transcript",
                     data=transcript_text,
@@ -34,7 +36,7 @@ def main() -> None:
                 )
 
             if job.summary_path and Path(job.summary_path).exists():
-                summary_text = Path(job.summary_path).read_text()
+                summary_text = Path(job.summary_path).read_text(encoding=_TEXT_ENCODING)
                 st.download_button(
                     "Download Summary",
                     data=summary_text,

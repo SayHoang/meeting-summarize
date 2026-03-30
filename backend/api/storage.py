@@ -7,6 +7,8 @@ from uuid import uuid4
 from .paths import get_job_dir, ensure_storage_root, get_prompt_override_path
 from .types import JobMeta
 
+_TEXT_ENCODING = "utf-8"
+
 
 def _now_iso() -> str:
     return datetime.now(timezone.utc).isoformat()
@@ -35,7 +37,7 @@ def save_meta(params: dict) -> JobMeta:
     meta = params["meta"]
     meta.updated_at = datetime.now(timezone.utc)
     meta_path = _meta_path(job_dir)
-    meta_path.write_text(meta.model_dump_json(indent=2))
+    meta_path.write_text(meta.model_dump_json(indent=2), encoding=_TEXT_ENCODING)
     return meta
 
 
@@ -44,7 +46,7 @@ def load_meta(params: dict) -> JobMeta:
     meta_path = _meta_path(job_dir)
     if not meta_path.exists():
         raise ValueError(f"meta.json not found for job: {job_dir.name}")
-    return JobMeta.model_validate_json(meta_path.read_text())
+    return JobMeta.model_validate_json(meta_path.read_text(encoding=_TEXT_ENCODING))
 
 
 def update_meta(params: dict) -> JobMeta:
@@ -84,7 +86,7 @@ def save_transcript_text(params: dict) -> Path:
     transcript_text = params["transcript_text"]
     job_dir = get_job_dir(job_id)
     transcript_path = job_dir / "transcript.txt"
-    transcript_path.write_text(transcript_text)
+    transcript_path.write_text(transcript_text, encoding=_TEXT_ENCODING)
 
     update_meta(
         {
@@ -104,7 +106,7 @@ def save_summary_text(params: dict) -> Path:
     summary_text = params["summary_text"]
     job_dir = get_job_dir(job_id)
     summary_path = job_dir / "summary.txt"
-    summary_path.write_text(summary_text)
+    summary_path.write_text(summary_text, encoding=_TEXT_ENCODING)
 
     update_meta(
         {
@@ -124,7 +126,7 @@ def save_judge_report_markdown(params: dict) -> Path:
     report_markdown = params["report_markdown"]
     job_dir = get_job_dir(job_id)
     report_path = job_dir / "full_report.md"
-    report_path.write_text(report_markdown)
+    report_path.write_text(report_markdown, encoding=_TEXT_ENCODING)
 
     update_meta(
         {
@@ -142,7 +144,7 @@ def read_text(params: dict) -> str:
     file_path = Path(params["file_path"])
     if not file_path.exists():
         raise ValueError(f"File not found: {file_path}")
-    return file_path.read_text()
+    return file_path.read_text(encoding=_TEXT_ENCODING)
 
 
 def list_jobs() -> list[JobMeta]:
@@ -153,7 +155,9 @@ def list_jobs() -> list[JobMeta]:
             continue
         meta_path = _meta_path(job_dir)
         if meta_path.exists():
-            job_metas.append(JobMeta.model_validate_json(meta_path.read_text()))
+            job_metas.append(
+                JobMeta.model_validate_json(meta_path.read_text(encoding=_TEXT_ENCODING))
+            )
     job_metas.sort(key=lambda item: item.created_at, reverse=True)
     return job_metas
 
@@ -161,11 +165,11 @@ def list_jobs() -> list[JobMeta]:
 def get_prompt_override_text() -> Optional[str]:
     prompt_path = get_prompt_override_path()
     if prompt_path.exists():
-        return prompt_path.read_text()
+        return prompt_path.read_text(encoding=_TEXT_ENCODING)
     return None
 
 
 def save_prompt_override_text(prompt_text: str) -> Path:
     prompt_path = get_prompt_override_path()
-    prompt_path.write_text(prompt_text)
+    prompt_path.write_text(prompt_text, encoding=_TEXT_ENCODING)
     return prompt_path

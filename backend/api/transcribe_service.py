@@ -21,7 +21,7 @@ def run_transcribe(
 
     job_dir = get_job_dir(params.job_id)
     output_path = params.output_path
-    with open(output_path, "w") as f:
+    with open(output_path, "w", encoding="utf-8") as f:
         for event in transcribe_audio_stream(
             {
                 "input_file": params.input_path,

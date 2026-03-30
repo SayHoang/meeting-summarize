@@ -55,7 +55,7 @@ def generate_summary_to_file(
     if not output_file:
         raise ValueError("output_file is required.")
 
-    with open(output_file, "w") as f:
+    with open(output_file, "w", encoding="utf-8") as f:
         for chunk_text in generate_summary_stream(params):
             f.write(chunk_text)
             if on_chunk:
