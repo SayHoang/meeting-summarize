@@ -1,0 +1,35 @@
+You are a strict meeting-summary judge.
+Evaluate two summaries against the transcript.
+Use only the criteria provided.
+Score range per criterion: __SCALE_RANGE__.
+Return ONLY a valid JSON object in this exact schema:
+{
+  "criteria": [
+    {
+      "name": "criterion_name",
+      "summary_1_score": 1,
+      "summary_2_score": 1,
+      "reason": "brief reason"
+    }
+  ],
+  "overall_rationale": "brief final rationale"
+}
+
+Rules:
+- For each criterion in Criteria, return exactly one item in "criteria".
+- Keep the "name" field exactly equal to the criterion name provided.
+- Scores must be integers within __SCALE_RANGE__.
+- Keep reasons concise and grounded in transcript evidence.
+- Do not return markdown, code fences, or extra text.
+
+Criteria:
+__CRITERIA__
+
+Transcript:
+__TRANSCRIPT__
+
+Summary 1:
+__SUMMARY_1__
+
+Summary 2:
+__SUMMARY_2__

@@ -5,7 +5,17 @@ from typing import Any
 
 from anthropic import Anthropic
 from openai import OpenAI
-from utils import _load_transcript_text, load_key, read_config_file
+from utils import _load_transcript_text, load_key, load_prompt, read_config_file
+
+
+_JUDGE_PROMPT_PATH = "prompts/judge_prompt.txt"
+_REQUIRED_PROMPT_PLACEHOLDERS = (
+    "__SCALE_RANGE__",
+    "__CRITERIA__",
+    "__TRANSCRIPT__",
+    "__SUMMARY_1__",
+    "__SUMMARY_2__",
+)
 
 
 def _default_criteria() -> list[dict[str, Any]]:
@@ -129,6 +139,20 @@ def _adjust_for_direction(score: int, direction: str, scale_min: int, scale_max:
     return float(score)
 
 
+def _load_judge_prompt_template() -> str:
+    prompt_template = load_prompt(_JUDGE_PROMPT_PATH).strip()
+    if not prompt_template:
+        raise ValueError(f"Judge prompt file is empty: {_JUDGE_PROMPT_PATH}")
+
+    missing_placeholders = [
+        placeholder for placeholder in _REQUIRED_PROMPT_PLACEHOLDERS if placeholder not in prompt_template
+    ]
+    if missing_placeholders:
+        missing_text = ", ".join(missing_placeholders)
+        raise ValueError(f"Judge prompt template is missing placeholders: {missing_text}")
+    return prompt_template
+
+
 def _build_judge_prompt(params: dict[str, Any]) -> str:
     criteria_text = "\n".join(
         [
@@ -139,32 +163,15 @@ def _build_judge_prompt(params: dict[str, Any]) -> str:
             for criterion in params["criteria"]
         ]
     )
-
-    return (
-        "You are a strict meeting-summary judge.\n"
-        "Evaluate two summaries against the transcript.\n"
-        "Use only the criteria provided.\n"
-        f"Score range per criterion: {params['scale_min']}..{params['scale_max']}.\n"
-        "Return ONLY a valid JSON object in this exact schema:\n"
-        "{\n"
-        '  "criteria": [\n'
-        "    {\n"
-        '      "name": "criterion_name",\n'
-        '      "summary_1_score": 1,\n'
-        '      "summary_2_score": 1,\n'
-        '      "reason": "brief reason"\n'
-        "    }\n"
-        "  ],\n"
-        '  "overall_rationale": "brief final rationale"\n'
-        "}\n\n"
-        f"Criteria:\n{criteria_text}\n\n"
-        "Transcript:\n"
-        f"{params['transcript_text']}\n\n"
-        "Summary 1:\n"
-        f"{params['summary_1']}\n\n"
-        "Summary 2:\n"
-        f"{params['summary_2']}\n"
+    prompt_template = _load_judge_prompt_template()
+    prompt_text = (
+        prompt_template.replace("__SCALE_RANGE__", f"{params['scale_min']}..{params['scale_max']}")
+        .replace("__CRITERIA__", criteria_text)
+        .replace("__TRANSCRIPT__", str(params["transcript_text"]))
+        .replace("__SUMMARY_1__", str(params["summary_1"]))
+        .replace("__SUMMARY_2__", str(params["summary_2"]))
     )
+    return prompt_text
 
 
 def _call_anthropic_judge(params: dict[str, Any]) -> dict[str, Any]:
