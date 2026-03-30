@@ -4,6 +4,7 @@ import json
 from typing import Any
 
 from anthropic import Anthropic
+from openai import OpenAI
 from utils import _load_transcript_text, load_key, read_config_file
 
 
@@ -185,6 +186,29 @@ def _call_anthropic_judge(params: dict[str, Any]) -> dict[str, Any]:
     return _extract_json_payload(content_text)
 
 
+def _call_openrouter_judge(params: dict[str, Any]) -> dict[str, Any]:
+    client = OpenAI(
+        base_url="https://openrouter.ai/api/v1",
+        api_key=params["api_key"],
+    )
+    response = client.chat.completions.create(
+        model=params["model"],
+        messages=[
+            {
+                "role": "user",
+                "content": _build_judge_prompt(params),
+            }
+        ],
+        temperature=0,
+    )
+    if not response.choices:
+        raise ValueError("OpenRouter judge returned no choices.")
+    content_text = (response.choices[0].message.content or "").strip()
+    if not content_text:
+        raise ValueError("OpenRouter judge returned empty content.")
+    return _extract_json_payload(content_text)
+
+
 def _compute_totals(params: dict[str, Any]) -> tuple[float, float]:
     criteria = params["criteria"]
     scoring_mode = params["scoring_mode"]
@@ -290,12 +314,18 @@ def run_judge(params: dict[str, Any]) -> dict[str, Any]:
         }
         return result
 
-    if settings["provider"] != "anthropic":
-        raise ValueError("Unsupported judge provider. Supported: anthropic.")
-
-    api_key = load_key("ANTHROPIC_API_KEY")
-    if not api_key:
-        raise ValueError("ANTHROPIC_API_KEY is required for judge.")
+    provider = settings["provider"]
+    api_key: str | None = None
+    if provider == "anthropic":
+        api_key = load_key("ANTHROPIC_API_KEY")
+        if not api_key:
+            raise ValueError("ANTHROPIC_API_KEY is required for judge (provider=anthropic).")
+    elif provider == "openrouter":
+        api_key = load_key("OPENROUTER_API_KEY")
+        if not api_key:
+            raise ValueError("OPENROUTER_API_KEY is required for judge (provider=openrouter).")
+    else:
+        raise ValueError("Unsupported judge provider. Supported: anthropic, openrouter.")
 
     transcript_text = _load_transcript_text(params).strip()
     summary_1 = str(params.get("summary_1") or "").strip()
@@ -305,19 +335,22 @@ def run_judge(params: dict[str, Any]) -> dict[str, Any]:
     if not summary_1 or not summary_2:
         raise ValueError("Both summary_1 and summary_2 are required.")
 
-    raw_result = _call_anthropic_judge(
-        {
-            "api_key": api_key,
-            "provider": settings["provider"],
-            "model": settings["model"],
-            "criteria": settings["criteria"],
-            "scale_min": settings["scale_min"],
-            "scale_max": settings["scale_max"],
-            "transcript_text": transcript_text,
-            "summary_1": summary_1,
-            "summary_2": summary_2,
-        }
-    )
+    call_params = {
+        "api_key": api_key,
+        "provider": provider,
+        "model": settings["model"],
+        "criteria": settings["criteria"],
+        "scale_min": settings["scale_min"],
+        "scale_max": settings["scale_max"],
+        "transcript_text": transcript_text,
+        "summary_1": summary_1,
+        "summary_2": summary_2,
+    }
+
+    if provider == "anthropic":
+        raw_result = _call_anthropic_judge(call_params)
+    else:
+        raw_result = _call_openrouter_judge(call_params)
 
     raw_criteria = raw_result.get("criteria")
     if not isinstance(raw_criteria, list):

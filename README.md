@@ -1,20 +1,5 @@
 # meeting-summarize
 
-## Installation
-
-### Install faster-whisper
-
-```bash
-pip install -r requirements.txt
-```
-
-### Install ffmpeg (required for audio decoding)
-
-```bash
-sudo apt update && sudo apt install -y ffmpeg
-```
-
-
 ## Whisper
 
 ### Models
@@ -67,6 +52,12 @@ Hướng dẫn chi tiết cách thêm tiêu chí mới (ví dụ `risk`), dùng 
 pip install -r requirements.txt
 ```
 
+### Install ffmpeg (required for audio decoding)
+
+```bash
+sudo apt update && sudo apt install -y ffmpeg
+```
+
 ### Start Streamlit (frontend + backend modules)
 
 ```bash
@@ -101,7 +92,7 @@ docker compose up -d --build
 docker compose down
 ```
 
-## Project Structure (updated)
+## Project Structure
 
 ```text
 kltn/

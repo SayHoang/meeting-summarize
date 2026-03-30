@@ -9,7 +9,7 @@ Tài liệu này hướng dẫn cách cấu hình LLM-as-a-Judge sau khi summari
 
 ## 1) Input ở đâu?
 
-Bạn chỉnh trực tiếp trong file `config.json`:
+ Bạn chỉnh trực tiếp trong file `config.json`:
 
 - `model_judge`: model Claude dùng để chấm.
 - `judge`: block cấu hình toàn bộ logic chấm điểm.
