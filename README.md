@@ -64,6 +64,9 @@ streamlit run frontend/app.py
 docker compose up -d --build
 ```
 
+### Import workflow into n8n
+Check [Workflow](n8n_workflow/KLTN.json)
+
 ### Service URLs
 
 |  Service      | Port                      |
