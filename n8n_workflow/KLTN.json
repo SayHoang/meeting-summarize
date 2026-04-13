@@ -1,0 +1,275 @@
+{
+  "name": "KLTN",
+  "nodes": [
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "https://www.notion.so/sayhoang/13400517233346f083d65094c3bcd46d?v=7d62087e29c6493fa0d8137b1c243796&source=copy_link",
+          "mode": "url"
+        },
+        "title": "={{ $('Tasks').item.json.taskName }}",
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "T-shirt Size|select",
+              "selectValue": "={{ $json.size || \"S\" }}"
+            },
+            {
+              "key": "Priority|status",
+              "statusValue": "={{ $json.priority || \"🧊 Low\" }}"
+            },
+            {
+              "key": "Kanban - Tag|select",
+              "selectValue": "={{ $json.kanbanTag || \"Task\"}}"
+            },
+            {
+              "key": "Kanban - Stage|status",
+              "statusValue": "={{ $json.kanbanStage || \"BACKLOG\"}}"
+            },
+            {
+              "key": "Acceptance Criteria|rich_text",
+              "textContent": "={{ $json.AC}}"
+            },
+            {
+              "key": "Due|date",
+              "includeTime": false,
+              "date": "={{ $json.due }}",
+              "timezone": "Asia/Ho_Chi_Minh"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        400,
+        304
+      ],
+      "id": "f997b01a-5930-4cf8-ba99-a6acc56c6c4c",
+      "name": "Create a database page",
+      "executeOnce": false,
+      "alwaysOutputData": false,
+      "credentials": {
+        "notionApi": {
+          "id": "4W1h3OYHrWNDKpoq",
+          "name": "SayHoang"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "batchSize": "=100",
+        "options": {
+          "reset": true
+        }
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        128,
+        288
+      ],
+      "id": "09683662-7a02-4b07-bbb4-a64fe1080194",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "jsCode": "const rawString = $input.first().json.content.parts[0].text\n\nconst cleanData = JSON.parse(rawString);\n\nreturn cleanData.map(item => {\n  return { json: item };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -96,
+        288
+      ],
+      "id": "c30ba09d-1a96-409e-903c-5f5a0a01660c",
+      "name": "Tasks"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=\"\"\"\n{{ $json.chatInput }}\n\"\"\"\n\nBase on the summary meeting notes, take action items and turn it into json.\n\n## Rules:\n0. Always start task name with verb.\n1. **Field mapping**\n```json\n[\n  {\n    \"taskName\": Task Name,\n    \"size\": \"S\" || \"M\" || \"L\" || \"XL\",\n    \"priority\": \"🧊 Low\", \"🧀 Medium\", \"🚨HIGH\",\n    \"kanbanTag\": \"Task\" || \"Epic\" || \"User Story\" || \"Hotfix\" ,\n    \"kanbanStage\": \"BACKLOG\" || \"TO-DO\",\n    \"AC\": Acceptance Criteria,\n    \"due\": Date (yyyy-MM-dd)\n  }\n]\n```\n2. **Defaults (if not mentioned)**\n - T-shirt Size: S\n - Priority: 🧊 Low\n - Kanban - Tag: Task\n - Kanban - Stage: BACKLOG\n - AC: empty\n - Due: empty\n3. **Date format**:\n - “next Friday”: `{{ $now.startOf('week').plus(1, 'week').plus(5, 'day').format('yyyy-MM-dd') }}`\n - \"2 weeks\": `{{ $today.plus(2, 'week').format('yyyy-MM-dd') }}\n\n## Final-notes:\n - Today date: {{ $now.format('yyyy-MM-dd') }}"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "builtInTools": {},
+        "options": {
+          "temperature": 0.1,
+          "topP": 0.4
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        -448,
+        288
+      ],
+      "id": "394b758b-a63d-44c8-97b5-0fa14d919b6e",
+      "name": "Message a model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "5fVkfDuNrH6iNUyN",
+          "name": "SayHoang"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "e324b71a-27ed-4960-b4fd-e0729ceda9de",
+        "options": {
+          "rawBody": true
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -1104,
+        288
+      ],
+      "id": "e00a8221-e6f5-4a9f-a072-537270825473",
+      "name": "POST Create Task",
+      "webhookId": "e324b71a-27ed-4960-b4fd-e0729ceda9de"
+    },
+    {
+      "parameters": {
+        "operation": "fromJson",
+        "binaryPropertyName": "=data",
+        "destinationKey": "chatInput",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        -880,
+        288
+      ],
+      "id": "d98fad2e-aade-48e2-9fb1-5941fa83e273",
+      "name": "Extract JSON"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "36176e63-375e-4982-ac4e-e4f439a95d56",
+              "name": "chatInput",
+              "value": "={{ $json.chatInput.summary_text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -656,
+        288
+      ],
+      "id": "8ed6d53a-948d-4809-a7ee-f1bd237c876b",
+      "name": "Turn into \"chatInput\""
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Create a database page": {
+      "main": [
+        []
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Create a database page",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tasks": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Tasks",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "POST Create Task": {
+      "main": [
+        [
+          {
+            "node": "Extract JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract JSON": {
+      "main": [
+        [
+          {
+            "node": "Turn into \"chatInput\"",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Turn into \"chatInput\"": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "d9e8c381-476e-4be6-9cdb-75131548582c",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "1c3e631b313648fa96a3a7959db90c18ad8fd441031de2a4af19c2ea76d77a57"
+  },
+  "id": "91oojDKwGCa8fGbK-_u7J",
+  "tags": []
+}
