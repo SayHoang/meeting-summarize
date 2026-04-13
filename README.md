@@ -40,7 +40,7 @@ Toàn bộ cấu hình Judge nằm trong `config.json`:
 - `judge.scale_min`, `judge.scale_max`
 - `judge.criteria[]` (`name`, `display_name`, `direction`, `weight`)
 
-Hướng dẫn chi tiết cách thêm tiêu chí mới (ví dụ `risk`), dùng weighted/simple average, và vị trí output report:
+Hướng dẫn chi tiết cách thêm tiêu chí mới (ví dụ `Speed`), dùng weighted/simple average, và vị trí output report:
 
 - [LLM Judge Configuration Guide](docs/llm_judge_guide.md)
 
@@ -52,29 +52,13 @@ Hướng dẫn chi tiết cách thêm tiêu chí mới (ví dụ `risk`), dùng 
 pip install -r requirements.txt
 ```
 
-### Install ffmpeg (required for audio decoding)
-
-```bash
-sudo apt update && sudo apt install -y ffmpeg
-```
-
 ### Start Streamlit (frontend + backend modules)
 
 ```bash
 streamlit run frontend/app.py
 ```
 
-Ứng dụng chạy tại: `http://localhost:8501`
-
-## Run Full Stack with Docker Compose
-
-Compose file chạy:
-
-- Streamlit app (`frontend` + `backend` Python modules)
-- n8n
-- PostgreSQL cho n8n
-
-### Start all services
+### Run n8n
 
 ```bash
 docker compose up -d --build
@@ -82,11 +66,13 @@ docker compose up -d --build
 
 ### Service URLs
 
-- Streamlit: `http://localhost:8501`
-- n8n: `http://localhost:5678`
-- PostgreSQL: `localhost:5432`
+|  Service      | Port                      |
+|:-------------:|:-------------------------:|
+|   Streamlit   | [http://localhost:8501](http://localhost:8501)     |
+|   n8n         | [http://localhost:5678](http://localhost:5678)     |
+|   PostgreSQL  | [http://localhost:5432](http://localhost:5432)     |
 
-### Stop all services
+### Stop services
 
 ```bash
 docker compose down
@@ -102,14 +88,20 @@ kltn/
 │   │   ├── transcribe_service.py
 │   │   ├── storage.py
 │   │   └── types.py
-│   └── core/
-│       ├── summarize.py
-│       ├── summarize_openai.py
-│       └── judge.py
+│   └── core/                       # Core app
+|       ├── prompts/                # Folder chứa các câu prompt cho toàn bộ hệ thống
+│       ├── faster.py               # Module chuyển đổi giọng nói thành văn bản
+│       ├── summarize.py            # Module tóm tắt 1
+│       ├── summarize_openai.py     # Module tóm tắt 2
+│       └── judge.py                # Module judge
+│       ├── param.json              # File chứa các thông số, setting của giao diện frontend/pages/settings.py
 ├── frontend/
-│   └── app.py
+│   ├── pages                       # Chứa các giao diện history, settings,...
+│   └── app.py                      # Frontend chính thức
 ├── docs/
-│   └── llm_judge_guide.md
+│   └── llm_judge_guide.md          # Tài liệu hướng dẫn setting LLM Judge
+├── n8n_workflow/
+│   └── KLTN.json                   # Template mẫu import workflow trong n8n
 ├── meeting_storage/
 ├── config.json
 └── docker-compose.yml
