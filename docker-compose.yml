@@ -1,24 +1,6 @@
 version: "3.9"
 
 services:
-  meeting-app:
-    image: python:3.11-slim
-    container_name: meeting-app
-    working_dir: /app
-    env_file:
-      - .env
-    environment:
-      N8N_WEBHOOK_URL: ${N8N_WEBHOOK_URL:-http://n8n:5678/webhook/create-task}
-    ports:
-      - "8501:8501"
-    volumes:
-      - ./:/app
-    command: >
-      bash -lc "pip install --no-cache-dir -r requirements.txt &&
-      streamlit run frontend/app.py --server.address 0.0.0.0 --server.port 8501"
-    depends_on:
-      - n8n
-
   # PostgreSQL Database
   n8n-db:
     image: postgres:16-alpine
